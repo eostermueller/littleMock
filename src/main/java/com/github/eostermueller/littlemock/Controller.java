@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class Controller implements EnvironmentAware {
 
 	private static AtomicInteger currentLogLevel = new AtomicInteger(0); 
+	private static AtomicInteger xpathImplementation = new AtomicInteger(0); 
 	private static AtomicBoolean fileCacheEnabled = new AtomicBoolean(false);
-	private static AtomicBoolean xpathBypassEnabled = new AtomicBoolean(false);
 	private String humanReadableConfig = "<uninitialized>";
 	
 
@@ -50,7 +50,7 @@ public class Controller implements EnvironmentAware {
     @RequestMapping(value="/config", method=RequestMethod.GET, produces = { "application/xml", "text/xml" })
     String config(
     			@RequestParam(value="logLevel", required=false) Integer intLogLevel,
-    			@RequestParam(value="xpathBypass", required=false) Boolean ynXPathBypass,
+    			@RequestParam(value="xpathImplementation", required=false) Integer intXPathImpl,
     			@RequestParam(value="fileCache", required=false) Boolean ynFileCache
     			) throws IOException {
     	
@@ -59,9 +59,9 @@ public class Controller implements EnvironmentAware {
     		Controller.logAlways("Log level set to [" + this.getLogLevel() + "]");
     	}
     	
-    	if (ynXPathBypass!=null) {
-    		Controller.setXPathBypassEnabled(ynXPathBypass.booleanValue());
-    		Controller.logAlways("xpathBypass set to [" + Controller.isXPathBypassEnabled() + "]");
+    	if (intXPathImpl!=null) {
+    		Controller.setXPathImpl(intXPathImpl.intValue());
+    		Controller.logAlways("xpath implementation set to [" + Controller.getXPathImpl() + "]");
     	}
 
     	if (ynFileCache!=null) {
@@ -69,15 +69,16 @@ public class Controller implements EnvironmentAware {
     		Controller.logAlways("fileCache set to [" + Controller.isFileCacheEnabled() + "]");
     	}
     	
+    	
     	StringBuilder sb = new StringBuilder();
     	sb.append("<config>");
     	sb.append("\n    <logLevel>").append(""+Controller.getLogLevel() ).append("    </logLevel>");
     	sb.append("\n    <fileCache>").append(""+Controller.isFileCacheEnabled() ).append("    </fileCache>");
-    	sb.append("\n    <bypassXPath>").append(""+Controller.isXPathBypassEnabled() ).append("    </bypassXPath>");
+    	sb.append("\n    <xpathImplementation>").append(""+Controller.getXPathImpl() ).append("    </xpathImplementation>");
     	sb.append("\n</config>");
     	return sb.toString();
     }	
-    String httpServletRequestToString(HttpServletRequest request) throws Exception {
+	String httpServletRequestToString(HttpServletRequest request) throws Exception {
 
         ServletInputStream mServletInputStream = request.getInputStream();
         byte[] httpInData = new byte[request.getContentLength()];
@@ -202,10 +203,11 @@ request.3.response.file=xml-anti-pattern.jmx
 	public static boolean isFileCacheEnabled() {
 		return Controller.fileCacheEnabled.get();
 	}
-	public static void setXPathBypassEnabled(boolean val) {
-		Controller.xpathBypassEnabled.set(val);
+	public static int getXPathImpl() {
+		return Controller.xpathImplementation.intValue();
 	}
-	public static boolean isXPathBypassEnabled() {
-		return Controller.xpathBypassEnabled.get();
+	private static void setXPathImpl(int intValue) {
+		Controller.xpathImplementation.set(intValue);
+		
 	}
 }

@@ -10,7 +10,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * For a "record-and-playback" stub server, this class
@@ -31,6 +36,7 @@ public class PlaybackRepository {
 	List<Config> configurations = new CopyOnWriteArrayList<Config>();
 	private File rootFolder = null;
 	private Map<String,Config> inputCache = new ConcurrentHashMap<String,Config>();
+	private Map<String,Document> domCache = new ConcurrentHashMap<String,Document>();
 
 	public File getRootFolder() {
 		return rootFolder;
@@ -62,35 +68,63 @@ public class PlaybackRepository {
 	public String humanReadable() {
 		return this.humanReadableConfiguration.toString();
 	}
-	
-	public String getResponse(String input) throws IOException {
 
+	public String getResponse(String input) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+		return getResponse(input,Controller.getXPathImpl());
+	}
+
+	public String getResponse(String input, int implementationId) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		Config c = null;
-		if (Controller.isXPathBypassEnabled()) {
-			c = this.inputCache.get(input);
-			if (Controller.isDebug())
-				Controller.logDebug("inputCache lookup [" + (c==null ? false : true)  + "]  using this input as key:[" + input + "]");
-
-			if (c==null) {
-				c = getConfigByXPath(input);
-				if (c!=null) {
-					this.inputCache.put(input, c);
-					if (Controller.isDebug())
-						Controller.logDebug("added this to inputCache [" + input + "]");
-				} else {
-					Controller.logAlways("none of the xpaths in application.properties seem to match [" + input + "]");
-				}
-			}
-		} else {
-			c = getConfigByXPath(input);
+		
+		switch( implementationId ) {
+			case 0:
+				c = locateConfig_noCaching(input);
+				break;
+			case 1:
+				c = locateConfig_domCaching(input);
+				break;
+			case 2:
+				c = locateConfig_respCaching(input);
+				break;
 		}
-
 		String rc = null;
 		if (c!=null)
 			rc = c.getResponseText();
 		
 		return rc;
-		
+	}
+	public Config locateConfig_noCaching(String input) throws IOException {
+		return getConfigByXPath(input);
+	}
+	public Config locateConfig_domCaching(String input) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException {
+		Document doc = this.domCache.get(input);
+		if (doc == null) {
+			InputSource is = new InputSource( new StringReader(input));
+			doc = XPathWrapper.parse(is);
+			this.domCache.put(input, doc);
+			if (Controller.isDebug())
+				Controller.logDebug("added this to domCache [" + input + "]");
+		}
+		Config c = this.getConfigByXPath(doc);
+		return c;
+	}
+	public Config locateConfig_respCaching(String input) throws IOException {
+
+		Config c = this.inputCache.get(input);
+		if (Controller.isDebug())
+			Controller.logDebug("inputCache lookup [" + (c==null ? false : true)  + "]  using this input as key:[" + input + "]");
+
+		if (c==null) {
+			c = getConfigByXPath(input);
+			if (c!=null) {
+				this.inputCache.put(input, c);
+				if (Controller.isDebug())
+					Controller.logDebug("added this to inputCache [" + input + "]");
+			} else {
+				Controller.logAlways("none of the xpaths in application.properties seem to match [" + input + "]");
+			}
+		}
+		return c;
 	}	
 	/**
 	 * For the given http input, return the text for the http response.
@@ -105,6 +139,25 @@ public class PlaybackRepository {
 
 			InputSource is = new InputSource( new StringReader(input));
 			if (c.xpath.matches(is)) {
+				rc = c;
+				break;
+			}
+		}
+		return rc;
+	}
+	/**
+	 * For the given http input, return the text for the http response.
+	 * @param input
+	 * @return
+	 * @throws IOException
+	 * @throws XPathExpressionException 
+	 */
+	public Config getConfigByXPath(Document input) throws IOException, XPathExpressionException {
+		Config rc = null;
+		for(Config c : this.configurations) {
+			Controller.logDebug("Does xpath [" + c.xpath.getXPath() + "] match input [" + input + "] ?");
+
+			if (c.xpath.matches(input)) {
 				rc = c;
 				break;
 			}
