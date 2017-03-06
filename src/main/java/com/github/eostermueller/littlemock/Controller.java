@@ -7,12 +7,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 @RestController
 @EnableAutoConfiguration
@@ -21,6 +27,8 @@ public class Controller implements EnvironmentAware {
 	private static AtomicInteger currentLogLevel = new AtomicInteger(0); 
 	private static AtomicInteger xpathImplementation = new AtomicInteger(0); 
 	private static AtomicBoolean fileCacheEnabled = new AtomicBoolean(false);
+	private static AtomicBoolean xpathFactoryCacheEnabled = new AtomicBoolean(false);
+	private static AtomicBoolean docBuilderCacheEnabled  = new AtomicBoolean(false);
 	private String humanReadableConfig = "<uninitialized>";
 	
 
@@ -51,6 +59,8 @@ public class Controller implements EnvironmentAware {
     String config(
     			@RequestParam(value="logLevel", required=false) Integer intLogLevel,
     			@RequestParam(value="xpathImplementation", required=false) Integer intXPathImpl,
+    			@RequestParam(value="xpathFactoryCache", required=false) Boolean ynXPathFactoryCache,
+    			@RequestParam(value="docBuilderCache", required=false) Boolean ynDocBuilderCache,
     			@RequestParam(value="fileCache", required=false) Boolean ynFileCache
     			) throws IOException {
     	
@@ -69,12 +79,24 @@ public class Controller implements EnvironmentAware {
     		Controller.logAlways("fileCache set to [" + Controller.isFileCacheEnabled() + "]");
     	}
     	
+    	if (ynXPathFactoryCache!=null) {
+    		Controller.setXPathFactoryCache(ynXPathFactoryCache.booleanValue());
+    		Controller.logAlways("fileCache set to [" + Controller.xpathFactoryCache() + "]");
+    	}
+    	
+    	if (ynDocBuilderCache!=null) {
+    		Controller.setDocBuilderCacheEnabled(ynDocBuilderCache.booleanValue());
+    		Controller.logAlways("docBuilderCache set to [" + Controller.docBuilderCacheEnabled() + "]");
+    	}
+    	
     	
     	StringBuilder sb = new StringBuilder();
     	sb.append("<config>");
     	sb.append("\n    <logLevel>").append(""+Controller.getLogLevel() ).append("    </logLevel>");
     	sb.append("\n    <fileCache>").append(""+Controller.isFileCacheEnabled() ).append("    </fileCache>");
     	sb.append("\n    <xpathImplementation>").append(""+Controller.getXPathImpl() ).append("    </xpathImplementation>");
+    	sb.append("\n    <xpathFactoryCache>").append(""+Controller.xpathFactoryCache() ).append("    </xpathFactoryCache>");
+    	sb.append("\n    <docBuilderCache>").append(""+Controller.docBuilderCacheEnabled() ).append("    </docBuilderCache>");
     	sb.append("\n</config>");
     	return sb.toString();
     }	
@@ -156,6 +178,12 @@ request.3.response.file=xml-anti-pattern.jmx
 	public void setLogLevel(int logLevel) {
 		Controller.currentLogLevel.set(logLevel);
 	}
+	Document parse(InputSource input) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document document = db.parse(input);
+		return document;
+	}
 	public static String rpad(String str, int num) {
 		    return String.format("%1$-" + num + "s", str);
 	 }
@@ -209,5 +237,17 @@ request.3.response.file=xml-anti-pattern.jmx
 	private static void setXPathImpl(int intValue) {
 		Controller.xpathImplementation.set(intValue);
 		
+	}
+	public static boolean xpathFactoryCache() {
+		return xpathFactoryCacheEnabled.get();
+	}
+	private static void setXPathFactoryCache(boolean booleanValue) {
+		Controller.xpathFactoryCacheEnabled.set(booleanValue);
+	}
+	public static boolean docBuilderCacheEnabled() {
+		return Controller.docBuilderCacheEnabled.get();
+	}
+	public static void setDocBuilderCacheEnabled(boolean yn) {
+		Controller.docBuilderCacheEnabled.set(yn);
 	}
 }

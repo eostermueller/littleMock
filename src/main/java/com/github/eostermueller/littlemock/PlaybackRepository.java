@@ -10,8 +10,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -93,14 +97,14 @@ public class PlaybackRepository {
 		
 		return rc;
 	}
-	public Config locateConfig_noCaching(String input) throws IOException {
+	public Config locateConfig_noCaching(String input) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		return getConfigByXPath(input);
 	}
 	public Config locateConfig_domCaching(String input) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException {
 		Document doc = this.domCache.get(input);
 		if (doc == null) {
 			InputSource is = new InputSource( new StringReader(input));
-			doc = XPathWrapper.parse(is);
+			doc = this.getDocBuilder().parse(is);
 			this.domCache.put(input, doc);
 			if (Controller.isDebug())
 				Controller.logDebug("added this to domCache [" + input + "]");
@@ -108,7 +112,7 @@ public class PlaybackRepository {
 		Config c = this.getConfigByXPath(doc);
 		return c;
 	}
-	public Config locateConfig_respCaching(String input) throws IOException {
+	public Config locateConfig_respCaching(String input) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 
 		Config c = this.inputCache.get(input);
 		if (Controller.isDebug())
@@ -131,19 +135,51 @@ public class PlaybackRepository {
 	 * @param input
 	 * @return
 	 * @throws IOException
+	 * @throws XPathExpressionException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
 	 */
-	public Config getConfigByXPath(String input) throws IOException {
+	public Config getConfigByXPath(String input) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		Config rc = null;
 		for(Config c : this.configurations) {
 			Controller.logDebug("Does xpath [" + c.xpath.getXPath() + "] match input [" + input + "] ?");
 
 			InputSource is = new InputSource( new StringReader(input));
-			if (c.xpath.matches(is)) {
+			Document d = this.getDocBuilder().parse(is);
+			if (c.xpath.matches(d)) {
 				rc = c;
 				break;
 			}
 		}
 		return rc;
+	}
+	private ThreadLocal<DocumentBuilder> myThreadLocalDocBuilder = new ThreadLocal<DocumentBuilder>() {
+	    @Override protected DocumentBuilder initialValue() {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = null;
+			try {
+				db = dbf.newDocumentBuilder();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	        return db;
+	    }
+	};    	
+	
+	public DocumentBuilder getDocBuilder() throws ParserConfigurationException {
+		return getDocBuilder(Controller.docBuilderCacheEnabled());
+	}
+	private DocumentBuilder getDocBuilder(boolean ynCache) throws ParserConfigurationException {
+		DocumentBuilder db = null;
+		if (ynCache)
+			return this.myThreadLocalDocBuilder.get();
+		else {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+		}
+		return db;
 	}
 	/**
 	 * For the given http input, return the text for the http response.
