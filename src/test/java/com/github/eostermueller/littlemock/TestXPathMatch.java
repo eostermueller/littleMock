@@ -2,47 +2,52 @@ package com.github.eostermueller.littlemock;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.io.StringReader;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class TestXPathMatch {
 	StringBuilder sb = null;
 	@Test
-	public void canFindResponseForXPathMatch() throws XPathExpressionException {
+	public void canFindResponseForXPathMatch() throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
 		XPathWrapper xpr = new XPathWrapper("/foo/bar/hello/world");
 		
 		String input_01 = "<foo><bar><hello><world/></hello></bar></foo>";
 		
 		InputSource is = new InputSource(new StringReader(input_01));
-
-		assertTrue( xpr.matches(is));
+		Document d = PlaybackRepository.SINGLETON.getDocBuilder().parse(is);
+		assertTrue( xpr.matches(d));
 	}
 	@Test
-	public void canMatchXPathWithNamespaces() throws XPathExpressionException {
+	public void canMatchXPathWithoutNamespaces() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException {
 //		XPathWrapper xpr = new XPathWrapper("/allergy:allergy/core:informationSource/core:informant/core:person/core:telecom");
 		XPathWrapper xpr = new XPathWrapper("/allergy/informationSource/informant/person/telecom");
 		
 		String input_03 = sb.toString();
 		
 		InputSource is = new InputSource(new StringReader(input_03));
-
-		assertTrue( xpr.matches(is));
+		Document d = PlaybackRepository.SINGLETON.getDocBuilder().parse(is);
+		assertTrue( xpr.matches(d));
 	}
 
 	@Test
-	public void canDetectXPathMiss() throws XPathExpressionException {
+	public void canDetectXPathMiss() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException {
 		XPathWrapper c = new XPathWrapper("/foo/other");
 		
 		String input_01 = "<foo><bar><hello><world/></hello></bar></foo>";
 		
 		InputSource is = new InputSource(new StringReader(input_01));
-
-		assertFalse( c.matches(is));
+		Document d = PlaybackRepository.SINGLETON.getDocBuilder().parse(is);
+		
+		assertFalse( c.matches(d));
 	}
 	
 	@Before

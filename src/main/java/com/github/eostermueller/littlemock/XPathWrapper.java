@@ -32,7 +32,7 @@ public class XPathWrapper {
 	    }
 	};    	
 	XPath getXPathObject() throws XPathExpressionException {
-		return getXPathObject(Controller.xpathFactoryCache());
+		return getXPathObject(Controller.getConfig().isXPathFactoryCacheEnabled() );
 	}
 	XPath getXPathObject(boolean ynCache) throws XPathExpressionException {
 		XPath xpath = null;

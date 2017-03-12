@@ -49,13 +49,15 @@ public class TestXPathRepo {
 	@Test
 	public void canFindResponse_domCache() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		String input_01 = "<foo><bar><hello><world/></hello></bar></foo>";
-		String resp = repo.getResponse(input_01, 1);
+		Controller.getConfig().setXPathImplementation( new Integer(1));
+		String resp = repo.getResponse(input_01);
 		assertEquals(RESPONSE_01,resp);
 	}
 	@Test
 	public void canFindResponse_responseCache() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		String input_01 = "<foo><bar><hello><world/></hello></bar></foo>";
-		String resp = repo.getResponse(input_01, 2);
+		Controller.getConfig().setXPathImplementation( new Integer(1));
+		String resp = repo.getResponse(input_01);
 		assertEquals(RESPONSE_01,resp);
 	}
 

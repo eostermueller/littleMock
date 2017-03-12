@@ -2,11 +2,16 @@ package com.github.eostermueller.littlemock;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
+
+
+
+//import javax.servlet.ServletInputStream;
+//import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,14 +29,8 @@ import org.xml.sax.SAXException;
 @EnableAutoConfiguration
 public class Controller implements EnvironmentAware {
 
-	private static AtomicInteger currentLogLevel = new AtomicInteger(0); 
-	private static AtomicInteger xpathImplementation = new AtomicInteger(0); 
-	private static AtomicBoolean fileCacheEnabled = new AtomicBoolean(false);
-	private static AtomicBoolean xpathFactoryCacheEnabled = new AtomicBoolean(false);
-	private static AtomicBoolean docBuilderCacheEnabled  = new AtomicBoolean(false);
 	private String humanReadableConfig = "<uninitialized>";
 	
-
 	public Controller() {
 		this.repo = PlaybackRepository.SINGLETON;
 	}
@@ -46,8 +45,13 @@ public class Controller implements EnvironmentAware {
     	String rc = "<LittleMockError>HTTP input did not match any of the configured XPath expressions.  \n[" + humanReadableConfig + "]</LittleMockError>";
     	
     	try {
-    		Controller.logInfo("####");
-    		Controller.logInfo("HTTP rq size: [" + lpad(""+input.length(),7) + "] bytes. Looking for match.");
+    		if (isInfo()) {
+	    		Controller.logInfo("####");
+	    		Controller.logInfo("HTTP rq size: [" + lpad(""+input.length(),7) + "] bytes. Looking for match.");
+    		}
+    		
+    		busyProcessing();
+    		
     	    rc = this.getRepository().getResponse(input);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,76 +59,75 @@ public class Controller implements EnvironmentAware {
     	
         return rc;
     }
-    @RequestMapping(value="/config", method=RequestMethod.GET, produces = { "application/xml", "text/xml" })
+    private void busyProcessing() {
+    	
+    	List<String> myList = new ArrayList<String>();
+    	
+		for( int i = 0; i < getConfig().getProcessingItems(); i++) {
+			Item item = new Item(); //create some uuids
+			item.process( getConfig().getProcessingIterations() ); //shuffle them around a bit.
+			myList.add( item.toString() ); //concatenate them into a big string
+		}
+		
+		Collections.sort(myList);
+		
+	}
+	@RequestMapping(value="/config", method=RequestMethod.GET, produces = { "application/xml", "text/xml" })
     String config(
     			@RequestParam(value="logLevel", required=false) Integer intLogLevel,
     			@RequestParam(value="xpathImplementation", required=false) Integer intXPathImpl,
+    			@RequestParam(value="uuidImplementation", required=false) Integer intUuidImpl,
+    			@RequestParam(value="randomIntegerImplementation", required=false) Integer intRandomIntImpl,
+    			@RequestParam(value="processingItems", required=false) Integer intProcessingItems,
+    			@RequestParam(value="processingIterations", required=false) Integer intProcessingIterations,
     			@RequestParam(value="xpathFactoryCache", required=false) Boolean ynXPathFactoryCache,
     			@RequestParam(value="docBuilderCache", required=false) Boolean ynDocBuilderCache,
     			@RequestParam(value="fileCache", required=false) Boolean ynFileCache
     			) throws IOException {
     	
-    	if (intLogLevel!=null) {
-    		this.setLogLevel(intLogLevel);
-    		Controller.logAlways("Log level set to [" + this.getLogLevel() + "]");
-    	}
+   		getConfig().setCurrentLogLevel(intLogLevel);
+   		getConfig().setXPathImplementation(intXPathImpl);
+   		getConfig().setUuidImplementation(intUuidImpl);
+   		getConfig().setRandomIntegerImplementation(intRandomIntImpl);
+   		getConfig().setFileCacheEnabled(ynFileCache);
+   		getConfig().setXPathFactoryCacheEnabled(ynXPathFactoryCache);
+   		getConfig().setDocBuilderCacheEnabled(ynDocBuilderCache);
+   		getConfig().setProcessingItems(intProcessingItems);
+   		getConfig().setProcessingIterations(intProcessingIterations);
     	
-    	if (intXPathImpl!=null) {
-    		Controller.setXPathImpl(intXPathImpl.intValue());
-    		Controller.logAlways("xpath implementation set to [" + Controller.getXPathImpl() + "]");
-    	}
-
-    	if (ynFileCache!=null) {
-    		Controller.setFileCacheEnabled(ynFileCache.booleanValue());
-    		Controller.logAlways("fileCache set to [" + Controller.isFileCacheEnabled() + "]");
-    	}
-    	
-    	if (ynXPathFactoryCache!=null) {
-    		Controller.setXPathFactoryCache(ynXPathFactoryCache.booleanValue());
-    		Controller.logAlways("fileCache set to [" + Controller.xpathFactoryCache() + "]");
-    	}
-    	
-    	if (ynDocBuilderCache!=null) {
-    		Controller.setDocBuilderCacheEnabled(ynDocBuilderCache.booleanValue());
-    		Controller.logAlways("docBuilderCache set to [" + Controller.docBuilderCacheEnabled() + "]");
-    	}
-    	
-    	
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("<config>");
-    	sb.append("\n    <logLevel>").append(""+Controller.getLogLevel() ).append("    </logLevel>");
-    	sb.append("\n    <fileCache>").append(""+Controller.isFileCacheEnabled() ).append("    </fileCache>");
-    	sb.append("\n    <xpathImplementation>").append(""+Controller.getXPathImpl() ).append("    </xpathImplementation>");
-    	sb.append("\n    <xpathFactoryCache>").append(""+Controller.xpathFactoryCache() ).append("    </xpathFactoryCache>");
-    	sb.append("\n    <docBuilderCache>").append(""+Controller.docBuilderCacheEnabled() ).append("    </docBuilderCache>");
-    	sb.append("\n</config>");
-    	return sb.toString();
+    	return getConfig().toXmlString();
     }	
-	String httpServletRequestToString(HttpServletRequest request) throws Exception {
-
-        ServletInputStream mServletInputStream = request.getInputStream();
-        byte[] httpInData = new byte[request.getContentLength()];
-        int retVal = -1;
-        StringBuilder stringBuilder = new StringBuilder();
-
-        while ((retVal = mServletInputStream.read(httpInData)) != -1) {
-            for (int i = 0; i < retVal; i++) {
-                stringBuilder.append(Character.toString((char) httpInData[i]));
-            }
-        }
-
-        return stringBuilder.toString();
-    }
+	static Config getConfig() {
+		return Config.SINGLETON;
+	}
+//	String httpServletRequestToString(HttpServletRequest request) throws Exception {
+//
+//        ServletInputStream mServletInputStream = request.getInputStream();
+//        byte[] httpInData = new byte[request.getContentLength()];
+//        int retVal = -1;
+//        StringBuilder stringBuilder = new StringBuilder();
+//
+//        while ((retVal = mServletInputStream.read(httpInData)) != -1) {
+//            for (int i = 0; i < retVal; i++) {
+//                stringBuilder.append(Character.toString((char) httpInData[i]));
+//            }
+//        }
+//
+//        return stringBuilder.toString();
+//    }
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Controller.class, args);
     }
     
     /**
-     * @stolenFrom:  https://en.wikipedia.org/wiki/Double-checked_locking and https://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
      * @return
      */
     private PlaybackRepository getRepository() {
     	PlaybackRepository result = this.repo;
+    	/**
+    	 * Use double check locking during initialization
+    	 * https://en.wikipedia.org/wiki/Double-checked_locking and https://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+    	 */
         if (result.getCount() == 0) {
             synchronized(this) {
                 result = repo;
@@ -159,10 +162,10 @@ request.3.response.file=xml-anti-pattern.jmx
 				&& responseTextFileName!=null & !"".equals(responseTextFileName.trim())	) {
 				
 				repo.addFile(xpath, responseTextFileName);
-				Controller.logAlways("Loading sequence [" + seq + "] xpath[" + xpath + "] data file [" + responseTextFileName + "]" );
+				Controller.logAlways("Loading config item [" + seq + "] xpath: [" + rpad(xpath, 60) + "] data file: [" + rpad(responseTextFileName,25) + "]" );
 				
 			} else {
-				Controller.logAlways("Either [" + xpathPropName + "] or [" + responseTextFilePropName + "] was not found in application.properties.  No more properties will be loaded.");
+				Controller.logAlways("End of littleMock initialization.  No more properties from application.properties will be loaded because either [" + xpathPropName + "] or [" + responseTextFilePropName + "] was not found in application.properties.");
 				//parameters in application.properties must be
 				//in sequential order, starting at 1.
 				//When we discover the first missing one, stop looking for more.
@@ -175,10 +178,8 @@ request.3.response.file=xml-anti-pattern.jmx
 	public void setEnvironment(Environment arg0) {
 		this.env = arg0;
 	}
-	public void setLogLevel(int logLevel) {
-		Controller.currentLogLevel.set(logLevel);
-	}
-	Document parse(InputSource input) throws ParserConfigurationException, SAXException, IOException {
+
+	Document createFactoryAndParse(InputSource input) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document document = db.parse(input);
@@ -189,19 +190,16 @@ request.3.response.file=xml-anti-pattern.jmx
 	 }
 	public static String lpad(String str, int num) {
 	    return String.format("%1$" + num + "s", str);
- }
-	public static int getLogLevel() {
-		return Controller.currentLogLevel.get();
 	}
 	public static boolean isDebug() {
 		boolean yn = false;
-		if( Controller.getLogLevel() >= 2 )
+		if( getConfig().getCurrentLogLevel() >= 2 )
 			yn = true;
 		return yn;
 	}
 	public static boolean isInfo() {
 		boolean yn = false;
-		if( Controller.getLogLevel() >= 1 )
+		if( getConfig().getCurrentLogLevel() >= 1 )
 			yn = true;
 		return yn;
 	}
@@ -222,32 +220,9 @@ request.3.response.file=xml-anti-pattern.jmx
 	public static void logAlways(String msg) {
 			System.out.println(getBanner()+msg);
 	}
+
 	private static String getBanner() {
 		return "littleMock: ";
 	}
-	public static void setFileCacheEnabled(boolean val) {
-		Controller.fileCacheEnabled.set(val);
-	}
-	public static boolean isFileCacheEnabled() {
-		return Controller.fileCacheEnabled.get();
-	}
-	public static int getXPathImpl() {
-		return Controller.xpathImplementation.intValue();
-	}
-	private static void setXPathImpl(int intValue) {
-		Controller.xpathImplementation.set(intValue);
-		
-	}
-	public static boolean xpathFactoryCache() {
-		return xpathFactoryCacheEnabled.get();
-	}
-	private static void setXPathFactoryCache(boolean booleanValue) {
-		Controller.xpathFactoryCacheEnabled.set(booleanValue);
-	}
-	public static boolean docBuilderCacheEnabled() {
-		return Controller.docBuilderCacheEnabled.get();
-	}
-	public static void setDocBuilderCacheEnabled(boolean yn) {
-		Controller.docBuilderCacheEnabled.set(yn);
-	}
+
 }

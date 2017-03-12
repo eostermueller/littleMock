@@ -13,9 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -73,14 +71,11 @@ public class PlaybackRepository {
 		return this.humanReadableConfiguration.toString();
 	}
 
-	public String getResponse(String input) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
-		return getResponse(input,Controller.getXPathImpl());
-	}
 
-	public String getResponse(String input, int implementationId) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+	public String getResponse(String input) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		Config c = null;
 		
-		switch( implementationId ) {
+		switch( Controller.getConfig().getXPathImplementation() ) {
 			case 0:
 				c = locateConfig_noCaching(input);
 				break;
@@ -169,7 +164,7 @@ public class PlaybackRepository {
 	};    	
 	
 	public DocumentBuilder getDocBuilder() throws ParserConfigurationException {
-		return getDocBuilder(Controller.docBuilderCacheEnabled());
+		return getDocBuilder( Controller.getConfig().isDocBuilderCacheEnabled() );
 	}
 	private DocumentBuilder getDocBuilder(boolean ynCache) throws ParserConfigurationException {
 		DocumentBuilder db = null;
@@ -235,7 +230,7 @@ public class PlaybackRepository {
 				//I didn't want my unit tests to be uglified with all the stuff required to read from files.
 				rc = responseText;
 			} else {
-				if (Controller.isFileCacheEnabled()) {
+				if (Controller.getConfig().isFileCacheEnabled()) {
 					rc = PlaybackRepository.SINGLETON.getCache().get(getKey());
 					if (rc==null) {
 						rc = readPhysicalFile();
