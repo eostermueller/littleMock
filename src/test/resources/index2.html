@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <title>Display IP Address</title>
+</head>
+ 
+<body>
+	
+  <div name="configWindow" id="configWindow">
+
+	Config Area
+  </div> 
+  <script>
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', "http://127.0.0.1:8080/config", true); 
+
+	xhr.addEventListener("readystatechange", processRequest, false);
+	xhr.send();
+	function processRequest(event) {
+		var myWindow = document.getElementById("configWindow");
+		if (xhr.readyState == 4 && xhr.status == 200) {
+       	 		myWindow = xhr.responseXML
+    		}
+
+	}
+  </script>
+
+    <script>
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', "http://127.0.0.1:8080/config", true);
+  
+          xhr.addEventListener("readystatechange", processRequest, false);
+          xhr.send();
+          function processRequest(event) {
+                  var myWindow = document.getElementById("configWindow");
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                          myWindow = xhr.responseXML
+                  }
+          }
+    </script>
+
+</body>
+ 
+</html>

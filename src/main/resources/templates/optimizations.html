@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Faster Tuning with Manual Stack Profiling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Spring Boot</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#about">About</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Faster Tuning with Manual Stack Profiling</h1>
+
+			<h2>
+				<span th:text="' ' + ${xpathMessage}"></span>
+			</h2>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">                                           
+				  <div class="col-xs-12"> Implementation </div>
+				</div>                                                      
+				<div class="row">                                           
+				  
+				  <div class="col-xs-12"> 
+
+<div class="form-check">
+  <label class="form-check-label">
+    <input id="id_xpath_0" class="form-check-input" type="radio" name="exampleRadios" value="option1" checked="true" />
+    <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">Basic approach to XPath</a>
+  </label>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">                                           
+
+				  
+				</div>                                                      
+				<div class="row">                                           
+
+				  <div class="col-xs-12"> 
+
+					   <div class="form-check">
+						   <label class="form-check-label">
+							 <input id="id_xpathFactoryCache" class="form-check-input" type="checkbox" value=""/>
+							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/XPathFactory.html#newInstance--">XPathFactry.newInstance()</a>, which is noticeably slow.
+						   </label>
+						 </div>
+					   <div class="form-check">
+						   <label class="form-check-label">
+							 <input id="id_docBuilderCache" class="form-check-input" type="checkbox" value=""/>
+							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilderFactory.html#newInstance--">DocumentBuilderFactory.newInstance()</a>, which is noticeably slow.
+						   </label>
+						 </div>
+						 </div>
+				</div>
+			</div>
+  
+</div>
+<div class="form-check">
+  <label class="form-check-label">
+    <input id="id_xpath_1" class="form-check-input" type="radio" name="exampleRadios" value="option2" />
+    Avoid DOM parsing by caching it for repeat input.
+  </label>
+</div>
+<div class="form-check">
+  <label class="form-check-label">
+    <input id="id_xpath_2" class="form-check-input" type="radio" name="exampleRadios" value="option3" />
+    Avoid DOM parsing and XPath eval by caching HTTP response for given input for repeat input.
+  </label>
+</div>
+
+					 </div>               
+				</div>                                                      
+				
+			</div>       
+		
+			<h2>
+				<span th:text="' ' + ${busyMessage}"></span>
+			</h2>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">                                           
+				  
+				  
+				</div>                                                      
+				<div class="row">                                           
+
+				  <div class="col-xs-12"> 
+						<p/>
+							<div class="row">
+							  <div class="col-lg-6">
+								<div class="input-group col-xs-2">
+								  <span class="input-group-btn">
+									<button class="btn btn-secondary btn-xs" type="button">Go!</button>
+								  </span>
+								  <input id="id_processingItems" type="text" class="form-control input-xs" />
+								</div>
+							  </div>						
+							</div>  
+							  <p/>
+							<div class="row">
+							  <div class="col-lg-6">
+								<div class="input-group col-xs-2">
+								  <span class="input-group-btn">
+									<button class="btn btn-secondary btn-xs" type="button">Go!</button>
+								  </span>
+								  <input id="id_processingIterations" type="text" class="form-control input-xs"  />
+								</div>
+							  </div>						
+							</div>  
+  <p/>
+					 </div>               
+				</div>                                                      
+			</div>
+
+			<h2>
+				<span th:text="' ' + ${otherMessage}"></span>
+			</h2>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">                                           
+				  <!-- Need to add theme, buttons  <div class="col-xs-12"> Text here </div>  -->                       
+				  
+				</div>                                                      
+				<div class="row">                                           
+				  <!-- Need to add theme, buttons -->                       
+				  <div class="col-xs-12"> 
+
+					   <div class="form-check">
+						   <label class="form-check-label">
+							 <input id="id_fileCache" class="form-check-input" type="checkbox" value=""/>
+							 File Cache
+						   </label>
+						 </div>
+					   <div class="form-check">
+						   <label class="form-check-label">
+							 <input id="id_uuidImplementation" class="form-check-input" type="checkbox" value=""/>
+							 Optimized UUID
+						   </label>
+						 </div>
+					   <div class="form-check">
+						   <label class="form-check-label">
+							 <input id="id_randomIntegerImplementation" class="form-check-input" type="checkbox" value=""/>
+							 Optimized Random Integer
+						   </label>
+						 </div>
+
+					 </div>               
+				</div>                                                      
+				
+			</div>       
+						
+		</div>
+
+	</div>
+
+
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+// <![CDATA[    
+           var cfgXml;
+           var xhr = new XMLHttpRequest();
+           xhr.open('GET', "/config", true);
+   
+           xhr.addEventListener("readystatechange", processRequest, false);
+           xhr.send();
+           function processRequest(event) {
+                   if (xhr.readyState == 4 && xhr.status == 200) {
+                           cfgXml = xhr.responseXML;
+                           refreshScreen();
+                   }
+   
+           }
+           function refreshScreen() {
+           
+				var xpathImplementation = cfgXml.getElementsByTagName('xpathImplementation')[0].childNodes[0].nodeValue;
+				refreshRadio( parseInt(xpathImplementation) );
+				
+				var xpathFactoryCache = cfgXml.getElementsByTagName('xpathFactoryCache')[0].childNodes[0].nodeValue;
+				document.getElementById("id_xpathFactoryCache").checked = (xpathFactoryCache.trim()==="true") ? true : false;
+				
+				var docBuilderCache = cfgXml.getElementsByTagName('docBuilderCache')[0].childNodes[0].nodeValue;
+				document.getElementById("id_docBuilderCache").checked = (docBuilderCache.trim()==="true") ? true : false;
+				
+				var processingItems = cfgXml.getElementsByTagName('processingItems')[0].childNodes[0].nodeValue;
+				document.getElementById("id_processingItems").value = processingItems.trim();
+
+				var processingIterations = cfgXml.getElementsByTagName('processingIterations')[0].childNodes[0].nodeValue;
+				document.getElementById("id_processingIterations").value = processingIterations.trim();
+				
+				var varFileCache = cfgXml.getElementsByTagName('fileCache')[0].childNodes[0].nodeValue;
+				document.getElementById("id_fileCache").checked = (varFileCache.trim()==="true") ? true : false;
+				
+				var randomIntegerImplementation = cfgXml.getElementsByTagName('randomIntegerImplementation')[0].childNodes[0].nodeValue;
+				document.getElementById("id_randomIntegerImplementation").checked = (randomIntegerImplementation.trim()==="1") ? true : false;
+
+				var uuidImplementation = cfgXml.getElementsByTagName('uuidImplementation')[0].childNodes[0].nodeValue;
+				document.getElementById("id_uuidImplementation").checked = (uuidImplementation.trim()==="1") ? true : false;
+
+				
+           }
+           function refreshRadio(newValue) {
+           		
+           		switch(newValue) {
+           			case 0:
+           				document.getElementById("id_xpath_0").checked = true;
+           				document.getElementById("id_xpath_1").checked = false;
+           				document.getElementById("id_xpath_2").checked = false;
+           				break;
+           			case 1:
+           				document.getElementById("id_xpath_0").checked = false;
+           				document.getElementById("id_xpath_1").checked = true;
+           				document.getElementById("id_xpath_2").checked = false;
+           				break;
+           			case 2:
+           				document.getElementById("id_xpath_0").checked = false;
+           				document.getElementById("id_xpath_1").checked = false;
+           				document.getElementById("id_xpath_2").checked = true;
+           				break;
+           		}
+           }
+// ]]>           
+     </script>
+
+</body>
+</html>

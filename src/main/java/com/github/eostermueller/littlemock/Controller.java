@@ -10,12 +10,16 @@ import java.util.List;
 
 
 
+
+import java.util.Map;
+
 //import javax.servlet.ServletInputStream;
 //import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.EnvironmentAware;
@@ -27,6 +31,7 @@ import org.xml.sax.SAXException;
 
 @RestController
 @EnableAutoConfiguration
+@SpringBootApplication
 public class Controller implements EnvironmentAware {
 
 	private String humanReadableConfig = "<uninitialized>";
@@ -100,21 +105,6 @@ public class Controller implements EnvironmentAware {
 	static Config getConfig() {
 		return Config.SINGLETON;
 	}
-//	String httpServletRequestToString(HttpServletRequest request) throws Exception {
-//
-//        ServletInputStream mServletInputStream = request.getInputStream();
-//        byte[] httpInData = new byte[request.getContentLength()];
-//        int retVal = -1;
-//        StringBuilder stringBuilder = new StringBuilder();
-//
-//        while ((retVal = mServletInputStream.read(httpInData)) != -1) {
-//            for (int i = 0; i < retVal; i++) {
-//                stringBuilder.append(Character.toString((char) httpInData[i]));
-//            }
-//        }
-//
-//        return stringBuilder.toString();
-//    }
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Controller.class, args);
     }
@@ -138,6 +128,7 @@ public class Controller implements EnvironmentAware {
         }
         return result;
     }
+        
     /**
      * Properties are loaded from application.properties.
 <pre>

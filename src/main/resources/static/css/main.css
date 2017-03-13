@@ -1,0 +1,20 @@
+h1{
+	color:#000000;
+}
+
+h2{
+	color:#f4b342;
+}
+
+/*
+The following was taken from here:
+https://codedump.io/share/vaNQroDPNGn2/1/bootstrap-3---input-xs-smaller-than-sm
+....can't quite tell why Bootstrap omits this.
+*/
+.input-xs {
+    height: 22px;
+    padding: 5px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
