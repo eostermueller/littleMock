@@ -28,7 +28,6 @@
 	</nav>
 
 	<div class="container">
-
 		<div class="starter-template">
 			<h1>Faster Tuning with Manual Stack Profiling</h1>
 
@@ -108,7 +107,7 @@
 							  <div class="col-lg-6">
 								<div class="input-group col-xs-2">
 								  <span class="input-group-btn">
-									<button class="btn btn-secondary btn-xs" type="button">Go!</button>
+									<button id="id_processingItems_btn" class="btn btn-secondary btn-xs" type="button">Go!</button>
 								  </span>
 								  <input id="id_processingItems" type="text" class="form-control input-xs" />
 								</div>
@@ -119,7 +118,7 @@
 							  <div class="col-lg-6">
 								<div class="input-group col-xs-2">
 								  <span class="input-group-btn">
-									<button class="btn btn-secondary btn-xs" type="button">Go!</button>
+									<button id="id_processingIterations_btn" class="btn btn-secondary btn-xs" type="button">Go!</button>
 								  </span>
 								  <input id="id_processingIterations" type="text" class="form-control input-xs"  />
 								</div>
@@ -165,9 +164,11 @@
 				</div>                                                      
 				
 			</div>       
+			<p/>
+			<p/>
+					<div id="alert_placeholder"></div>
 						
 		</div>
-
 	</div>
 
 
@@ -175,6 +176,11 @@
 		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
 // <![CDATA[    
+
+			/**  
+			  *  Get system status when web page first loads.
+			  */
+		   var lastChangeUrl;
            var cfgXml;
            var xhr = new XMLHttpRequest();
            xhr.open('GET', "/config", true);
@@ -185,8 +191,8 @@
                    if (xhr.readyState == 4 && xhr.status == 200) {
                            cfgXml = xhr.responseXML;
                            refreshScreen();
+                           showalert("Server up, ready to tune!","alert-success");
                    }
-   
            }
            function refreshScreen() {
            
@@ -236,6 +242,110 @@
            				break;
            		}
            }
+           function sendRadioState() {
+           		var xpathImpl;
+           		
+           		if (
+           			    document.getElementById("id_xpath_0").checked
+           			&& !document.getElementById("id_xpath_1").checked
+           			&& !document.getElementById("id_xpath_2").checked
+           			) {
+           			xpathImpl = "0";
+           		} else if (
+           			   !document.getElementById("id_xpath_0").checked
+           			&&  document.getElementById("id_xpath_1").checked
+           			&& !document.getElementById("id_xpath_2").checked
+           			) {
+           			xpathImpl = "1";
+           		} else if (
+           			   !document.getElementById("id_xpath_0").checked
+           			&& !document.getElementById("id_xpath_1").checked
+           			&&  document.getElementById("id_xpath_2").checked
+           			) {
+           			xpathImpl = "2";
+           		} 	
+           		sendConfigChange("xpathImplementation", xpathImpl );
+           }
+           /**
+             *   E V E N T     H A N D L E R S
+             *
+             */
+		   document.getElementById('id_xpathFactoryCache').onclick = function() {
+		   		sendConfigChange("xpathFactoryCache", this.checked ? "true" : "false" );
+		   };
+ 		   document.getElementById('id_docBuilderCache').onclick = function() {
+		   		sendConfigChange("docBuilderCache", this.checked ? "true" : "false" );
+		   };
+ 		   document.getElementById('id_fileCache').onclick = function() {
+		   		sendConfigChange("fileCache", this.checked ? "true" : "false" );
+		   };
+ 		   document.getElementById('id_randomIntegerImplementation').onclick = function() {
+		   		sendConfigChange("randomIntegerImplementation", this.checked ? "1" : "0" );
+		   };
+ 		   document.getElementById('id_uuidImplementation').onclick = function() {
+		   		sendConfigChange("uuidImplementation", this.checked ? "1" : "0" );
+		   };
+ 		   document.getElementById('id_xpath_0').onclick = function() {
+		   		sendRadioState();
+		   };
+ 		   document.getElementById('id_xpath_1').onclick = function() {
+		   		sendRadioState();
+		   };
+ 		   document.getElementById('id_xpath_2').onclick = function() {
+		   		sendRadioState();
+		   };
+ 		   document.getElementById('id_processingItems_btn').onclick = function() {
+				var processingItems = document.getElementById("id_processingItems").value;
+		   		sendConfigChange("processingItems", processingItems.trim() );
+		   };
+ 		   document.getElementById('id_processingIterations_btn').onclick = function() {
+				var processingIterations = document.getElementById("id_processingIterations").value;
+		   		sendConfigChange("processingIterations", processingIterations.trim() );
+		   };
+           
+           
+		   /**
+			 Bootstrap Alerts -
+			 Function Name - showalert()
+			 Inputs - message,alerttype
+			 Example - showalert("Invalid Login","alert-error")
+			 Types of alerts -- "alert-error","alert-success","alert-info","alert-warning"
+			 Required - You only need to add a alert_placeholder div in your html page wherever you want to display these alerts "<div id="alert_placeholder"></div>"
+			 Written On - 14-Jun-2013
+			 stolen from: http://stackoverflow.com/questions/10082330/dynamically-create-bootstrap-alerts-box-through-javascript
+			 see also:  http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-alerts.php
+		   **/
+
+			 function showalert(message,alerttype) {
+
+			   
+			   var foo = document.createElement('foo');
+			   foo.innerHTML = '<div id="alertdiv" class="alert fade in ' +  alerttype + '"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>';
+			   document.getElementById("alert_placeholder").appendChild(foo);
+
+			   setTimeout(function() { // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
+
+
+				 var x = document.getElementById("alertdiv");
+				 x.parentNode.removeChild(x);
+
+			   }, 5000);
+			 }           
+
+           function sendConfigChange(variableName, variableValue) {
+					var xhr = new XMLHttpRequest();
+					lastChangeUrl="/config?"+variableName+"="+variableValue;
+					xhr.open('GET', lastChangeUrl, true);
+   
+					xhr.addEventListener("readystatechange", displayStatus, false);
+					xhr.send();
+					function displayStatus(event) {
+							if (xhr.readyState == 4 && xhr.status == 200) {
+									showalert("Change applied: "+lastChangeUrl,"alert-success");
+							}
+					}
+           }
+
 // ]]>           
      </script>
 
