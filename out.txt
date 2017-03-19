@@ -1,0 +1,102 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building littleMock 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.6.1:clean (default-clean) @ littleMock ---
+[INFO] Deleting /Users/erikostermueller/Documents/src/jsource/littleMock/target
+[INFO] 
+[INFO] --- dependencypath-maven-plugin:1.1.1:set (set-all) @ littleMock ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ littleMock ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 7 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ littleMock ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 6 source files to /Users/erikostermueller/Documents/src/jsource/littleMock/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ littleMock ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ littleMock ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to /Users/erikostermueller/Documents/src/jsource/littleMock/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ littleMock ---
+[INFO] 
+[INFO] --- maven-jar-plugin:2.6:jar (default-jar) @ littleMock ---
+[INFO] Building jar: /Users/erikostermueller/Documents/src/jsource/littleMock/target/littleMock-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:1.5.1.RELEASE:repackage (default) @ littleMock ---
+[INFO] Attaching archive: /Users/erikostermueller/Documents/src/jsource/littleMock/target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar, with classifier: spring-boot
+[INFO] 
+[INFO] --- exec-maven-plugin:1.2:exec (default) @ littleMock ---
+objc[11436]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/bin/java and /Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib/libinstrument.dylib. One of the two will be used. Which one is undefined.
+2017-03-19 13:40:47.154 INFO  org.glowroot - Glowroot version: 0.9.13, built 2017-03-13 18:05:25 +0000
+2017-03-19 13:40:49.332 INFO  org.glowroot - plugins loaded: Cassandra Plugin, Executor Plugin, Grails Plugin, Hibernate Plugin, HTTP Client Plugin, JAX-RS Plugin, Jdbc Plugin, JMS Plugin, JSF Plugin, JSP Plugin, Logger Plugin, Play Plugin, Netty Plugin, Quartz Plugin, Redis Plugin, Servlet Plugin, Spray Plugin, Spring Plugin, Struts Plugin
+2017-03-19 13:40:53.810 INFO  org.glowroot - UI listening on 127.0.0.1:4000 (to access the UI from remote machines, change the bind address to 0.0.0.0, either in the Glowroot UI under Configuration > Web, or directly in the admin.json file which then requires restart to take effect)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v1.5.1.RELEASE)
+
+2017-03-19 13:40:54.432  INFO 11436 --- [           main] c.g.eostermueller.littlemock.Controller  : Starting Controller v0.0.1-SNAPSHOT on Eriks-MBP.attlocal.net with PID 11436 (/Users/erikostermueller/Documents/src/jsource/littleMock/target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar started by erikostermueller in /Users/erikostermueller/Documents/src/jsource/littleMock)
+2017-03-19 13:40:54.436  INFO 11436 --- [           main] c.g.eostermueller.littlemock.Controller  : No active profile set, falling back to default profiles: default
+2017-03-19 13:40:54.959  INFO 11436 --- [           main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@2de56eb2: startup date [Sun Mar 19 13:40:54 CDT 2017]; root of context hierarchy
+2017-03-19 13:40:56.333  INFO 11436 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration' of type [class org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-19 13:40:56.537  INFO 11436 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'validator' of type [class org.springframework.validation.beanvalidation.LocalValidatorFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-19 13:40:57.019  INFO 11436 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-03-19 13:40:57.038  INFO 11436 --- [           main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-19 13:40:57.040  INFO 11436 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.11
+2017-03-19 13:40:57.182  INFO 11436 --- [ost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-19 13:40:57.184  INFO 11436 --- [ost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2225 ms
+2017-03-19 13:40:57.340  INFO 11436 --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-19 13:40:57.347  INFO 11436 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-19 13:40:57.347  INFO 11436 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-19 13:40:57.348  INFO 11436 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-19 13:40:57.348  INFO 11436 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-19 13:40:57.755  INFO 11436 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@2de56eb2: startup date [Sun Mar 19 13:40:54 CDT 2017]; root of context hierarchy
+2017-03-19 13:40:57.866  INFO 11436 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/],methods=[POST]}" onto java.lang.String com.github.eostermueller.littlemock.Controller.home(java.lang.String)
+2017-03-19 13:40:57.867  INFO 11436 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/config],methods=[GET],produces=[application/xml || text/xml]}" onto java.lang.String com.github.eostermueller.littlemock.Controller.config(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) throws java.io.IOException
+2017-03-19 13:40:57.868  INFO 11436 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/ui]}" onto public java.lang.String com.github.eostermueller.littlemock.ui.UI.optimizations(java.lang.String,org.springframework.ui.Model)
+2017-03-19 13:40:57.872  INFO 11436 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-19 13:40:57.872  INFO 11436 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-19 13:40:57.910  INFO 11436 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-19 13:40:57.910  INFO 11436 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-19 13:40:57.963  INFO 11436 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-19 13:40:58.638  INFO 11436 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-19 13:40:58.720  INFO 11436 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-03-19 13:40:58.727  INFO 11436 --- [           main] c.g.eostermueller.littlemock.Controller  : Started Controller in 4.86 seconds (JVM running for 11.875)
+2017-03-19 13:41:06.264  INFO 11436 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-19 13:41:06.265  INFO 11436 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-19 13:41:06.282  INFO 11436 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 17 ms
+littleMock: Loading config item [1] xpath: [/allergy/informationSource/informant/person/telecom         ] data file: [NCORV.xml                ]
+littleMock: Loading config item [2] xpath: [/Compositions/Work[500]/Title                               ] data file: [dom-xml-anti-pattern.jmx ]
+littleMock: Loading config item [3] xpath: [/medication/informationSource/informant/person/address/zip  ] data file: [xml-anti-pattern.jmx     ]
+littleMock: Loading config item [4] xpath: [/project/pluginRepositories/pluginRepository[2]/url         ] data file: [xsd-anti-pattern.jmx     ]
+littleMock: Loading config item [5] xpath: [//part[@id='P1']/measure[15]/note[30]/notations/tied        ] data file: [birds.xml                ]
+littleMock: End of littleMock initialization.  No more properties from application.properties will be loaded because either [request.6.xpath] or [request.6.response.file] was not found in application.properties.
+2017-03-19 14:00:50.247  INFO 11436 --- [      Thread-11] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@2de56eb2: startup date [Sun Mar 19 13:40:54 CDT 2017]; root of context hierarchy
+2017-03-19 14:00:50.249  INFO 11436 --- [      Thread-11] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 20:07 min
+[INFO] Finished at: 2017-03-19T14:00:50-05:00
+[INFO] Final Memory: 32M/278M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:exec (default) on project littleMock: Command execution failed. Process exited with an error: 143(Exit value: 143) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @EnableAutoConfiguration
+
 public class UI {
 
 	// inject via application.properties
