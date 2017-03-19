@@ -1,2 +1,2 @@
-mvn -f pom-load.xml 
+mvn verify -Pno-gui -DtestEnvironment=stage -f pom-load.xml 
 
