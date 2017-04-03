@@ -18,6 +18,6 @@ littleMock is demo environment for Java performance tuning. Runs on Windows/Mac/
 
 # Monitor It!
 1. Click the "Monitoring" link at the top of the page to launch [Glowroot](http://glowroot.org), monitoring software that will show you the impact of the optimizations you select on the above web page.
-2. Scroll down a bit and select the 'thorughput' radio button.
+2. Scroll down a bit and select the 'throughput' radio button.
 
 ![](https://cloud.githubusercontent.com/assets/175773/24088328/134fa4d4-0cf7-11e7-9271-239aa058d1da.png)
