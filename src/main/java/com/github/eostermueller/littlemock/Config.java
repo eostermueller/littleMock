@@ -15,6 +15,7 @@ public class Config {
 	private  int randomIntegerImplementation = 0; 
 	private  int processingItems = 100;
 	private  int processingIterations = 100; 
+	private  int fixedDelayMilliseconds = 0; 
 	private  boolean fileCacheEnabled = false;
 	private  boolean xpathFactoryCacheEnabled = false;
 	private  boolean docBuilderCacheEnabled  = false;
@@ -61,6 +62,15 @@ public class Config {
 	}
 	public int getProcessingIterations() {
 		return processingIterations;
+	}
+	public int getFixedDelayMilliseconds() {
+		return this.fixedDelayMilliseconds;
+	}
+	public void setFixedDelayMilliseconds(Integer val) {
+		if (val != null) {
+			this.fixedDelayMilliseconds = val;
+			this.logAlways("FixedDelayMilliseconds set to [" + this.fixedDelayMilliseconds + "]");
+		}
 	}
 	public void setProcessingIterations(Integer val) {
 		if (val != null) {
@@ -119,6 +129,7 @@ public class Config {
     	sb.append("\n    <docBuilderCache>").append(this.isDocBuilderCacheEnabled() ).append("    </docBuilderCache>");
     	sb.append("\n    <processingItems>").append(this.getProcessingItems() ).append("    </processingItems>");
     	sb.append("\n    <processingIterations>").append(this.getProcessingIterations() ).append("    </processingIterations>");
+    	sb.append("\n    <fixedDelayMilliseconds>").append(this.getFixedDelayMilliseconds() ).append("    </fixedDelayMilliseconds>");
     	sb.append("\n</config>");
 		return sb.toString();
 	}

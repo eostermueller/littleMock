@@ -124,6 +124,17 @@
 								</div>
 							  </div>						
 							</div>  
+							  <p/>
+							<div class="row">
+							  <div class="col-lg-6">
+								<div class="input-group col-xs-2">
+								  <span class="input-group-btn">
+									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button">Go!</button>
+								  </span>
+								  <input id="id_fixedDelayMilliseconds" type="text" class="form-control input-xs"  />
+								</div>
+							  </div>						
+							</div>  
   <p/>
 					 </div>               
 				</div>                                                      
@@ -210,6 +221,9 @@
 
 				var processingIterations = cfgXml.getElementsByTagName('processingIterations')[0].childNodes[0].nodeValue;
 				document.getElementById("id_processingIterations").value = processingIterations.trim();
+				
+				var fixedDelayMilliseconds = cfgXml.getElementsByTagName('fixedDelayMilliseconds')[0].childNodes[0].nodeValue;
+				document.getElementById("id_fixedDelayMilliseconds").value = fixedDelayMilliseconds.trim();
 				
 				var varFileCache = cfgXml.getElementsByTagName('fileCache')[0].childNodes[0].nodeValue;
 				document.getElementById("id_fileCache").checked = (varFileCache.trim()==="true") ? true : false;
@@ -301,6 +315,10 @@
  		   document.getElementById('id_processingIterations_btn').onclick = function() {
 				var processingIterations = document.getElementById("id_processingIterations").value;
 		   		sendConfigChange("processingIterations", processingIterations.trim() );
+		   };
+ 		   document.getElementById('id_fixedDelayMilliseconds_btn').onclick = function() {
+				var fixedDelayMilliseconds = document.getElementById("id_fixedDelayMilliseconds").value;
+		   		sendConfigChange("fixedDelayMilliseconds", fixedDelayMilliseconds.trim() );
 		   };
            
            

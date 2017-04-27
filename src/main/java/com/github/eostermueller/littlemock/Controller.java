@@ -55,6 +55,9 @@ public class Controller implements EnvironmentAware {
 	    		Controller.logInfo("HTTP rq size: [" + lpad(""+input.length(),7) + "] bytes. Looking for match.");
     		}
     		
+    		if (getConfig().getFixedDelayMilliseconds()>0)
+    			Thread.sleep( (long) getConfig().getFixedDelayMilliseconds() );
+    		
     		busyProcessing();
     		
     	    rc = this.getRepository().getResponse(input);
@@ -85,6 +88,7 @@ public class Controller implements EnvironmentAware {
     			@RequestParam(value="randomIntegerImplementation", required=false) Integer intRandomIntImpl,
     			@RequestParam(value="processingItems", required=false) Integer intProcessingItems,
     			@RequestParam(value="processingIterations", required=false) Integer intProcessingIterations,
+    			@RequestParam(value="fixedDelayMilliseconds", required=false) Integer intFixedDelayMilliseconds,
     			@RequestParam(value="xpathFactoryCache", required=false) Boolean ynXPathFactoryCache,
     			@RequestParam(value="docBuilderCache", required=false) Boolean ynDocBuilderCache,
     			@RequestParam(value="fileCache", required=false) Boolean ynFileCache
@@ -99,6 +103,7 @@ public class Controller implements EnvironmentAware {
    		getConfig().setDocBuilderCacheEnabled(ynDocBuilderCache);
    		getConfig().setProcessingItems(intProcessingItems);
    		getConfig().setProcessingIterations(intProcessingIterations);
+   		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);
     	
     	return getConfig().toXmlString();
     }	
