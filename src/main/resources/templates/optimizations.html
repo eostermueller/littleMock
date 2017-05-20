@@ -97,28 +97,38 @@
 			<div class="container-fluid" style="border:1px solid #cecece;">
 				<div class="row">                                           
 				  
-				  
 				</div>                                                      
 				<div class="row">                                           
 
 				  <div class="col-xs-12"> 
 						<p/>
 							<div class="row">
+				  <div class="col-xs-12">
+				  	<span th:text="' ' + ${busyDescription}"></span>
+				  </div>
+							
+									
+							</div>  
+							  <p/>
+							
+							<div class="row">
 							  <div class="col-lg-6">
-								<div class="input-group col-xs-2">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_processingItems_btn" class="btn btn-secondary btn-xs" type="button">Go!</button>
+									<button id="id_processingItems_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> X!</button>
 								  </span>
 								  <input id="id_processingItems" type="text" class="form-control input-xs" />
 								</div>
 							  </div>						
-							</div>  
+							</div>  							
 							  <p/>
 							<div class="row">
 							  <div class="col-lg-6">
-								<div class="input-group col-xs-2">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_processingIterations_btn" class="btn btn-secondary btn-xs" type="button">Go!</button>
+									<button id="id_processingIterations_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> Y!</button>
 								  </span>
 								  <input id="id_processingIterations" type="text" class="form-control input-xs"  />
 								</div>
@@ -126,10 +136,17 @@
 							</div>  
 							  <p/>
 							<div class="row">
+								  <div class="col-xs-12">
+								  	<span th:text="' ' + ${busySleep}"></span>
+					  			</div>
+							</div>  
+							  <p/>
+							<div class="row">
 							  <div class="col-lg-6">
-								<div class="input-group col-xs-2">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button">Go!</button>
+									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span>!</button>
 								  </span>
 								  <input id="id_fixedDelayMilliseconds" type="text" class="form-control input-xs"  />
 								</div>
