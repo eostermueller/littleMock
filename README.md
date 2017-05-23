@@ -1,4 +1,4 @@
-# littleMock
+# Install and Run littleMock
 
 littleMock is demo environment for Java performance tuning. Runs on Windows/Mac/Linux, internet connection required.
 
