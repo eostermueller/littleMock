@@ -1,11 +1,11 @@
 # littleMock
 
-littleMock is demo environment for Java performance tuning. Runs on Windows/Mac/Linux.
+littleMock is demo environment for Java performance tuning. Runs on Windows/Mac/Linux, internet connection required.
 
 1. Make sure a 1.7+ JDK and [Maven](http://maven.apache.org) are both installed.
 2. Download zip or clone littleMock to your own machine.  Use green button on the top right.
-3. Launch startWar.sh to launch the WAR file.
-4. From a different cmd/terminal window, launch load.sh to apply 3 threads of load of traffic.
+3. Launch startWar.sh (or startWar.cmd) to launch the WAR file.
+4. From a different cmd/terminal window, launch load.sh (or load.cmd) to apply 3 threads of load of traffic.
 5. Both of these scripts will take a few minutes to download dependencies.
 
 
