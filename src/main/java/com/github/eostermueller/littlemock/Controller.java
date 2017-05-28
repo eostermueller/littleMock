@@ -13,6 +13,7 @@ import java.util.List;
 
 import java.util.Map;
 
+
 //import javax.servlet.ServletInputStream;
 //import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -56,7 +57,7 @@ public class Controller implements EnvironmentAware {
     		}
     		
     		if (getConfig().getFixedDelayMilliseconds()>0)
-    			Thread.sleep( (long) getConfig().getFixedDelayMilliseconds() );
+    			simulateSlowCode( (long) getConfig().getFixedDelayMilliseconds() );
     		
     		busyProcessing();
     		
@@ -67,6 +68,13 @@ public class Controller implements EnvironmentAware {
     	
         return rc;
     }
+	private void simulateSlowCode(long milliseconds) {
+		try {
+			Thread.sleep( milliseconds );
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
     private void busyProcessing() {
     	
     	List<String> myList = new ArrayList<String>();
