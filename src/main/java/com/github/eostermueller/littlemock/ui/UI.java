@@ -31,6 +31,9 @@ public class UI {
 	@Value("${busy.sleep:test}")
 	private String busySleep = "Time in milliseconds to Thread.sleep().";
 		
+	@Value("${code.link:test}")
+	private String codeLink = "(link to source code)";
+		
     @RequestMapping("/ui")
     public String optimizations(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -40,6 +43,7 @@ public class UI {
         model.addAttribute("busyDescription", this.busyDescription);
         model.addAttribute("busyUpdate", this.busyUpdate);
         model.addAttribute("busySleep", this.busySleep);
+        model.addAttribute("codeLink", this.codeLink);
         return "optimizations";
     }
 

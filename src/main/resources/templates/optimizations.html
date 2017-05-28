@@ -21,7 +21,7 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="#">Home</a></li>
-					<li><a href="javascript:window.open('http://localhost:4000', 'Monitoring', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');">Monitoring</a></li>
+					<li><a href="javascript:window.open('http://localhost:4000', 'Link to source code', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');"> Monitoring </a></li>
 				</ul>
 			</div>
 		</div>
@@ -45,7 +45,10 @@
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_0" class="form-check-input" type="radio" name="exampleRadios" value="option1" checked="true" />
-    <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">Basic approach to XPath</a>
+    <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">Basic approach to XPath <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a> </a>
+
+														  	
+    
   </label>
 			<div class="container-fluid" style="border:1px solid #cecece;">
 				<div class="row">                                           
@@ -59,13 +62,13 @@
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_xpathFactoryCache" class="form-check-input" type="checkbox" value=""/>
-							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/XPathFactory.html#newInstance--">XPathFactry.newInstance()</a>, which is noticeably slow.
+							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/XPathFactory.html#newInstance--">XPathFactry.newInstance()</a>, which is noticeably slow.														  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/XPathWrapper.java#L33-L46', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_docBuilderCache" class="form-check-input" type="checkbox" value=""/>
-							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilderFactory.html#newInstance--">DocumentBuilderFactory.newInstance()</a>, which is noticeably slow.
+							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilderFactory.html#newInstance--">DocumentBuilderFactory.newInstance()</a>, which is noticeably slow. 														  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L166-L178', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 						 </div>
@@ -76,13 +79,13 @@
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_1" class="form-check-input" type="radio" name="exampleRadios" value="option2" />
-    Avoid DOM parsing by caching it for repeat input.
+    Avoid DOM parsing by caching it for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_2" class="form-check-input" type="radio" name="exampleRadios" value="option3" />
-    Avoid DOM parsing and XPath eval by caching HTTP response for given input for repeat input.
+    Avoid DOM parsing and XPath eval by caching HTTP response for given input for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 
@@ -95,19 +98,22 @@
 				<span th:text="' ' + ${busyMessage}"></span>
 			</h2>
 			<div class="container-fluid" style="border:1px solid #cecece;">
-				<div class="row">                                           
+				<div class="row">        
+				                                   
 				  
 				</div>                                                      
 				<div class="row">                                           
 
 				  <div class="col-xs-12"> 
 						<p/>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">
+					<div class="col-xs-12">                                           
+						
 							<div class="row">
 				  <div class="col-xs-12">
 				  	<span th:text="' ' + ${busyDescription}"></span>
 				  </div>
-							
-									
 							</div>  
 							  <p/>
 							
@@ -119,8 +125,13 @@
 									<button id="id_processingItems_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> X!</button>
 								  </span>
 								  <input id="id_processingItems" type="text" class="form-control input-xs" />
+								  
+
 								</div>
-							  </div>						
+							  </div>
+							  <div class="col-lg-12">	
+							  <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Controller.java#L82-L86', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+							  </div>					
 							</div>  							
 							  <p/>
 							<div class="row">
@@ -131,10 +142,22 @@
 									<button id="id_processingIterations_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> Y!</button>
 								  </span>
 								  <input id="id_processingIterations" type="text" class="form-control input-xs"  />
+								  
 								</div>
+							  </div>
+							  <div class="col-lg-12">
+							  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Controller.java#L82-L86', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 							  </div>						
-							</div>  
+							</div> 
+							</div>
+							</div>
+							</div> 
+							
 							  <p/>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">
+					<div class="col-xs-12">                                           
+							  
 							<div class="row">
 								  <div class="col-xs-12">
 								  	<span th:text="' ' + ${busySleep}"></span>
@@ -142,16 +165,24 @@
 							</div>  
 							  <p/>
 							<div class="row">
-							  <div class="col-lg-6">
+							  <div class="col-lg-4">
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
 									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span>!</button>
 								  </span>
-								  <input id="id_fixedDelayMilliseconds" type="text" class="form-control input-xs"  />
+								  <input id="id_fixedDelayMilliseconds" type="text" class="form-control input-xs"  />  								   
 								</div>
-							  </div>						
+								<div class="input-group col-xs-3">
+									<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/cb84acf6479ba5d9aca7ea60e0f83703dc82acde/src/main/java/com/github/eostermueller/littlemock/Controller.java#L58-L59', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+								</div>
+							  </div> 				
+
+							</div>
+							</div>
+							</div>
 							</div>  
+							
   <p/>
 					 </div>               
 				</div>                                                      
@@ -173,18 +204,21 @@
 						   <label class="form-check-label">
 							 <input id="id_fileCache" class="form-check-input" type="checkbox" value=""/>
 							 File Cache
+							 <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L233-L241', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_uuidImplementation" class="form-check-input" type="checkbox" value=""/>
 							 Optimized UUID
+							 <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Item.java#L367-L373', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_randomIntegerImplementation" class="form-check-input" type="checkbox" value=""/>
 							 Optimized Random Integer
+							  <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Item.java#L42-L50', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 
