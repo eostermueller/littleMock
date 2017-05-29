@@ -114,9 +114,16 @@
 		    <executable>java</executable>
 		    <arguments>
 			<argument>-classpath</argument>
-		        <classpath />
-		        <argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument>
-		        <argument>-jar</argument>
+		        <classpath /> 
+			<!-- 
+				The following method
+				java.util.ServiceLoader$LazyIterator.hasNextService(ServiceLoader.java:354)
+				leads to a call to 
+				at org.springframework.boot.loader.jar.JarURLConnection.throwFileNotFound(JarURLConnection.java:185)
+				but the following -D keeps this from happening.
+			 -->
+			<argument>-Dcom.sun.org.apache.xml.internal.dtm.DTMManager=com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault</argument> 
+		       <argument>-jar</argument>
 		       <argument>target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar</argument>
 		   </arguments>
 		</configuration>
