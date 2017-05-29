@@ -3,24 +3,14 @@ package com.github.eostermueller.littlemock;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 
-
-
-
-import java.util.Map;
-
-
-//import javax.servlet.ServletInputStream;
-//import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.EnvironmentAware;
@@ -107,8 +97,6 @@ public class Controller implements EnvironmentAware {
    		getConfig().setUuidImplementation(intUuidImpl);
    		getConfig().setRandomIntegerImplementation(intRandomIntImpl);
    		getConfig().setFileCacheEnabled(ynFileCache);
-   		getConfig().setXPathFactoryCacheEnabled(ynXPathFactoryCache);
-   		getConfig().setDocBuilderCacheEnabled(ynDocBuilderCache);
    		getConfig().setProcessingItems(intProcessingItems);
    		getConfig().setProcessingIterations(intProcessingIterations);
    		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);

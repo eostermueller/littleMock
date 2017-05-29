@@ -1,6 +1,5 @@
 package com.github.eostermueller.littlemock;
 
-
 /**
  * Default values are set to be the slowest configuration, performance-wise.
  * @author erikostermueller
@@ -17,8 +16,6 @@ public class Config {
 	private  int processingIterations = 100; 
 	private  int fixedDelayMilliseconds = 0; 
 	private  boolean fileCacheEnabled = false;
-	private  boolean xpathFactoryCacheEnabled = false;
-	private  boolean docBuilderCacheEnabled  = false;
 
 	/**
 	 * Private ctor helps make this a singleton;
@@ -96,24 +93,6 @@ public class Config {
 			this.logAlways("FileCacheEnabled set to [" + this.fileCacheEnabled + "]");
 		}
 	}
-	public boolean isXPathFactoryCacheEnabled() {
-		return xpathFactoryCacheEnabled;
-	}
-	public void setXPathFactoryCacheEnabled(Boolean val ) {
-		if (val != null) {
-			this.xpathFactoryCacheEnabled = val;
-			this.logAlways("XPathFactoryCacheEnabled set to [" + this.xpathFactoryCacheEnabled + "]");
-		}
-	}
-	public boolean isDocBuilderCacheEnabled() {
-		return docBuilderCacheEnabled;
-	}
-	public void setDocBuilderCacheEnabled(Boolean val) {
-		if (val != null) {
-			this.docBuilderCacheEnabled = val;
-			this.logAlways("DocBuilderCacheEnabled set to [" + this.docBuilderCacheEnabled + "]");
-		}
-	}
 	private void logAlways(String msg) {
 		Controller.logAlways(msg);
 	}
@@ -125,8 +104,6 @@ public class Config {
     	sb.append("\n    <xpathImplementation>").append(this.getXPathImplementation() ).append("    </xpathImplementation>");
     	sb.append("\n    <uuidImplementation>").append(this.getUuidImplementation() ).append("    </uuidImplementation>");
     	sb.append("\n    <randomIntegerImplementation>").append(this.getRandomIntegerImplementation() ).append("    </randomIntegerImplementation>");
-    	sb.append("\n    <xpathFactoryCache>").append(this.isXPathFactoryCacheEnabled() ).append("    </xpathFactoryCache>");
-    	sb.append("\n    <docBuilderCache>").append(this.isDocBuilderCacheEnabled() ).append("    </docBuilderCache>");
     	sb.append("\n    <processingItems>").append(this.getProcessingItems() ).append("    </processingItems>");
     	sb.append("\n    <processingIterations>").append(this.getProcessingIterations() ).append("    </processingIterations>");
     	sb.append("\n    <fixedDelayMilliseconds>").append(this.getFixedDelayMilliseconds() ).append("    </fixedDelayMilliseconds>");

@@ -115,16 +115,16 @@
 		    <arguments>
 			<argument>-classpath</argument>
 		        <classpath /> 
-			<!-- 
-				The following method
-				java.util.ServiceLoader$LazyIterator.hasNextService(ServiceLoader.java:354)
-				leads to a call to 
-				at org.springframework.boot.loader.jar.JarURLConnection.throwFileNotFound(JarURLConnection.java:185)
-				but the following -D keeps this from happening.
-			 -->
+			
+			<!-- #### Start of XML optimizations 
 			<argument>-Dcom.sun.org.apache.xml.internal.dtm.DTMManager=com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault</argument> 
-		       <argument>-jar</argument>
-		       <argument>target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar</argument>
+			<argument>-Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl</argument>
+			<argument>-Djavax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom=com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl</argument> 
+			     #### End of XML optimizations -->
+
+			<argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument>
+			<argument>-jar</argument>
+			<argument>target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar</argument>
 		   </arguments>
 		</configuration>
 

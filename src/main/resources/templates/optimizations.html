@@ -29,7 +29,7 @@
 
 	<div class="container">
 		<div class="starter-template">
-			<h1>Faster Tuning with Manual Stack Profiling</h1>
+			<h1>Faster Tuning with Manual Thread Dump Profiling</h1>
 
 			<h2>
 				<span th:text="' ' + ${xpathMessage}"></span>
@@ -50,31 +50,7 @@
 														  	
     
   </label>
-			<div class="container-fluid" style="border:1px solid #cecece;">
-				<div class="row">                                           
-
-				  
-				</div>                                                      
-				<div class="row">                                           
-
-				  <div class="col-xs-12"> 
-
-					   <div class="form-check">
-						   <label class="form-check-label">
-							 <input id="id_xpathFactoryCache" class="form-check-input" type="checkbox" value=""/>
-							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/XPathFactory.html#newInstance--">XPathFactry.newInstance()</a>, which is noticeably slow.														  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/XPathWrapper.java#L33-L46', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
-						   </label>
-						 </div>
-					   <div class="form-check">
-						   <label class="form-check-label">
-							 <input id="id_docBuilderCache" class="form-check-input" type="checkbox" value=""/>
-							 Avoid calls to <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilderFactory.html#newInstance--">DocumentBuilderFactory.newInstance()</a>, which is noticeably slow. 														  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L166-L178', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
-						   </label>
-						 </div>
-						 </div>
-				</div>
-			</div>
-  
+   
 </div>
 <div class="form-check">
   <label class="form-check-label">
@@ -85,7 +61,7 @@
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_2" class="form-check-input" type="radio" name="exampleRadios" value="option3" />
-    Avoid DOM parsing and XPath eval by caching HTTP response for given input for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+    Avoid DOM parsing and XPath eval by caching HTTP response for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 
@@ -261,12 +237,6 @@
 				var xpathImplementation = cfgXml.getElementsByTagName('xpathImplementation')[0].childNodes[0].nodeValue;
 				refreshRadio( parseInt(xpathImplementation) );
 				
-				var xpathFactoryCache = cfgXml.getElementsByTagName('xpathFactoryCache')[0].childNodes[0].nodeValue;
-				document.getElementById("id_xpathFactoryCache").checked = (xpathFactoryCache.trim()==="true") ? true : false;
-				
-				var docBuilderCache = cfgXml.getElementsByTagName('docBuilderCache')[0].childNodes[0].nodeValue;
-				document.getElementById("id_docBuilderCache").checked = (docBuilderCache.trim()==="true") ? true : false;
-				
 				var processingItems = cfgXml.getElementsByTagName('processingItems')[0].childNodes[0].nodeValue;
 				document.getElementById("id_processingItems").value = processingItems.trim();
 
@@ -335,12 +305,6 @@
              *   E V E N T     H A N D L E R S
              *
              */
-		   document.getElementById('id_xpathFactoryCache').onclick = function() {
-		   		sendConfigChange("xpathFactoryCache", this.checked ? "true" : "false" );
-		   };
- 		   document.getElementById('id_docBuilderCache').onclick = function() {
-		   		sendConfigChange("docBuilderCache", this.checked ? "true" : "false" );
-		   };
  		   document.getElementById('id_fileCache').onclick = function() {
 		   		sendConfigChange("fileCache", this.checked ? "true" : "false" );
 		   };

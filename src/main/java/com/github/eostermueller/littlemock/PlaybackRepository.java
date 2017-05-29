@@ -164,16 +164,8 @@ public class PlaybackRepository {
 	};    	
 	
 	public DocumentBuilder getDocBuilder() throws ParserConfigurationException {
-		return getDocBuilder( Controller.getConfig().isDocBuilderCacheEnabled() );
-	}
-	private DocumentBuilder getDocBuilder(boolean ynCache) throws ParserConfigurationException {
-		DocumentBuilder db = null;
-		if (ynCache)
-			return this.myThreadLocalDocBuilder.get();
-		else {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            db = dbf.newDocumentBuilder();
-		}
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
 		return db;
 	}
 	/**
