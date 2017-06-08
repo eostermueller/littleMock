@@ -2,6 +2,7 @@ package com.github.eostermueller.littlemock;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -13,15 +14,15 @@ public class Item {
 	static int min = 1;
 	static int max = 20;
 	static AtomicLong indexIntoRandomArray = new AtomicLong();
-	static Random random = new Random();
+	private static Random random = new Random();
 	
 	public void process(int j) {
 		
 		for(int i = 0; i < j; i++) {
 			
 			//Grab one of the values, set it somewhere else.
-			String s = get( getRandomVariableInteger() );
-			set(s, getRandomVariableInteger());
+			String s = get( getRandomVariableInteger(min,max) );
+			set(s, getRandomVariableInteger(min,max));
 		}
 	}
 	/**
@@ -29,7 +30,7 @@ public class Item {
 	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for( int i = 1; i <=20;i++)
+		for( int i = 1; i <=max;i++)
 			sb.append(get(i));
 		return sb.toString();
 	}
@@ -37,15 +38,22 @@ public class Item {
 	 * Which of the 20 variables should we play with?
 	 * @return
 	 */
-	private static int getRandomVariableInteger() {
+	public static int getRandomVariableInteger(int min, int max) {
 		int rc = -1;
 		switch(Controller.getConfig().getRandomIntegerImplementation()) {
 		case 0:
 			rc =  random.nextInt((max - min) + 1) + min;
 			break;
 		case 1:
-			int aryIndex = (int)Item.indexIntoRandomArray.get() % Item.myRndArry.length;
+			if (max > Item.myRndArry.length)
+				throw new RuntimeException("When Controller.getConfig().getRandomIntegerImplementation() ==1, max must be <= 20.  Instead was [" + max + "]");
+
+			int aryIndex = (int)Item.indexIntoRandomArray.getAndIncrement() % Item.myRndArry.length;
 			rc = Item.myRndArry[ aryIndex ];
+			break;
+			//Todo:  expose '2' as an option
+		case 2:
+			rc = ThreadLocalRandom.current().nextInt(max);
 			break;
 		}
 		return rc;

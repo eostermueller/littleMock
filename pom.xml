@@ -116,11 +116,11 @@
 			<argument>-classpath</argument>
 		        <classpath /> 
 			
-			<!-- #### Start of XML optimizations 
+			<!-- #### Start of XML optimizations
 			<argument>-Dcom.sun.org.apache.xml.internal.dtm.DTMManager=com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault</argument> 
 			<argument>-Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl</argument>
 			<argument>-Djavax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom=com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl</argument> 
-			     #### End of XML optimizations -->
+			    #### End of XML optimizations -->
 
 			<argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument>
 			<argument>-jar</argument>

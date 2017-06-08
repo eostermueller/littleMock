@@ -1,11 +1,16 @@
 package com.github.eostermueller.littlemock;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
+
 /**
  * Default values are set to be the slowest configuration, performance-wise.
  * @author erikostermueller
  *
  */
 public class Config {
+	
 	public static Config SINGLETON = new Config();
 
 	private  int currentLogLevel = 0;
@@ -16,11 +21,19 @@ public class Config {
 	private  int processingIterations = 100; 
 	private  int fixedDelayMilliseconds = 0; 
 	private  boolean fileCacheEnabled = false;
+	private int oldGenMaxExpirationMs = 60000; //set expirations time stamps that are System.currentTimeMillis() + random value, with this variable as the max.
+	private int oldGenMaxBytes = 1024; //at most, add this many bytes to the old gen repository.
+	private int oldGenRequestCountThresholdForPruning = 0;
+
+	private IntegerChangeListener oldGenRequestCountThresholdForPruning_changeListener;
 
 	/**
 	 * Private ctor helps make this a singleton;
 	 */
-	private Config() {	}
+	private Config() { 
+		
+		
+	}
 	public int getCurrentLogLevel() {
 		return currentLogLevel;
 	}
@@ -107,8 +120,60 @@ public class Config {
     	sb.append("\n    <processingItems>").append(this.getProcessingItems() ).append("    </processingItems>");
     	sb.append("\n    <processingIterations>").append(this.getProcessingIterations() ).append("    </processingIterations>");
     	sb.append("\n    <fixedDelayMilliseconds>").append(this.getFixedDelayMilliseconds() ).append("    </fixedDelayMilliseconds>");
+
+    	sb.append("\n    <oldGenMaxExpirationMs>").append(this.getOldGenMaxExpirationMs() ).append("    </oldGenMaxExpirationMs>");
+    	sb.append("\n    <oldGenMaxBytes>").append(this.getOldGenMaxBytes() ).append("    </oldGenMaxBytes>");
+    	sb.append("\n    <oldGenRequestCountThresholdForPruning>").append( this.getOldGenRequestCountThresholdForPruning() ).append("    </oldGenRequestCountThresholdForPruning>");
+   		
+    	
     	sb.append("\n</config>");
 		return sb.toString();
 	}
+	public int getOldGenMaxExpirationMs() {
+		return this.oldGenMaxExpirationMs;
+	}
+	public void setOldGenMaxExpirationMs(Integer val) {
+		if (val != null) {
+			this.oldGenMaxExpirationMs = val;
+			this.logAlways("oldGenMaxExpirationMs set to [" + this.oldGenMaxExpirationMs + "]");
+		}
+	}
+	public int getOldGenMaxBytes() {
+		return oldGenMaxBytes;
+	}
+	public void setOldGenMaxBytes(Integer val) {
+		
+		if (val != null) {
+			this.oldGenMaxBytes = val;
+			this.logAlways("oldGenMaxBytes set to [" + this.oldGenMaxBytes + "]");
+		}
+	}
 	
+	public int getOldGenRequestCountThresholdForPruning() {
+		return oldGenRequestCountThresholdForPruning;
+	}
+	public void setOldGenRequestCountThresholdForPruning_changeListener(IntegerChangeListener val) {
+		oldGenRequestCountThresholdForPruning_changeListener = val;
+	}
+	public IntegerChangeListener getOldGenRequestCountThresholdForPruning_changeListener() {
+		return oldGenRequestCountThresholdForPruning_changeListener;
+	}
+	public void setOldGenRequestCountThresholdForPruning(Integer val) {
+		if (val != null) {
+			this.oldGenRequestCountThresholdForPruning = val;
+			this.getOldGenRequestCountThresholdForPruning_changeListener().newValue(val);
+			this.logAlways("oldGenRequestCountThresholdForPruning set to [" + this.oldGenRequestCountThresholdForPruning + "]");
+		}
+	}
+	public OldGenerationData createData() {
+		
+		long expirationForOldGenBytes = System.currentTimeMillis()+
+				ThreadLocalRandom.current().nextInt( getOldGenMaxExpirationMs() );
+
+		int oldGenBytesToCreate = ThreadLocalRandom.current().nextInt( getOldGenMaxBytes() );
+
+		OldGenerationData data = new OldGenerationData( expirationForOldGenBytes, oldGenBytesToCreate );
+		
+		return data;
+	}
 }

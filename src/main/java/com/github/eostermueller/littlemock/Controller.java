@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,6 +19,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
+
 @RestController
 @EnableAutoConfiguration
 @SpringBootApplication
@@ -29,6 +30,8 @@ public class Controller implements EnvironmentAware {
 	
 	public Controller() {
 		this.repo = PlaybackRepository.SINGLETON;
+		this.setOldGenRepo( new OldGenerationRepo() );
+		getConfig().setOldGenRequestCountThresholdForPruning_changeListener(this.getOldGenRepo());
 	}
 
 	private Environment env;
@@ -51,13 +54,29 @@ public class Controller implements EnvironmentAware {
     		
     		busyProcessing();
     		
+    		oldGenProcessing();
+    		
     	    rc = this.getRepository().getResponse(input);
+    	    
+    	    
+    	    
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
         return rc;
     }
+	
+	private void oldGenProcessing() {
+		
+		OldGenerationData data = getConfig().createData(); //somewhat randomized expiration time is encoded inside created object.
+		
+		getOldGenRepo().maybeAdd(data);				//only adds if enabled flag is set.
+		
+		getOldGenRepo().maybePrune();					//remove data whose expiration has expired, 
+															//but only when enabled and when the 'nth' request has been made
+		
+	}
 	private void simulateSlowCode(long milliseconds) {
 		try {
 			Thread.sleep( milliseconds );
@@ -89,7 +108,11 @@ public class Controller implements EnvironmentAware {
     			@RequestParam(value="fixedDelayMilliseconds", required=false) Integer intFixedDelayMilliseconds,
     			@RequestParam(value="xpathFactoryCache", required=false) Boolean ynXPathFactoryCache,
     			@RequestParam(value="docBuilderCache", required=false) Boolean ynDocBuilderCache,
-    			@RequestParam(value="fileCache", required=false) Boolean ynFileCache
+    			@RequestParam(value="fileCache", required=false) Boolean ynFileCache,
+    			@RequestParam(value="oldGenMaxExpirationMs", required=false) Integer intOldGenMaxExpirationMs,
+    			@RequestParam(value="oldGenMaxBytes", required=false) Integer intOldGenMaxBytes,
+    			@RequestParam(value="oldGenRequestCountThresholdForPruning", required=false) Integer intOldGenRequestCountThresholdForPruning
+    			
     			) throws IOException {
     	
    		getConfig().setCurrentLogLevel(intLogLevel);
@@ -100,12 +123,23 @@ public class Controller implements EnvironmentAware {
    		getConfig().setProcessingItems(intProcessingItems);
    		getConfig().setProcessingIterations(intProcessingIterations);
    		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);
+   		getConfig().setOldGenMaxExpirationMs(intOldGenMaxExpirationMs);
+   		getConfig().setOldGenMaxBytes(intOldGenMaxBytes);
+   		getConfig().setOldGenRequestCountThresholdForPruning(intOldGenRequestCountThresholdForPruning);
     	
     	return getConfig().toXmlString();
     }	
 	static Config getConfig() {
 		return Config.SINGLETON;
 	}
+	public OldGenerationRepo getOldGenRepo() {
+		return oldGenRepo;
+	}
+	public void setOldGenRepo(OldGenerationRepo oldGenRepo) {
+		this.oldGenRepo = oldGenRepo;
+	}
+	OldGenerationRepo oldGenRepo = null; 
+	
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Controller.class, args);
     }
@@ -215,6 +249,15 @@ request.3.response.file=xml-anti-pattern.jmx
 
 	private static String getBanner() {
 		return "littleMock: ";
+	}
+	@RequestMapping(
+		    value = "/clearOldGen", 
+		    method = RequestMethod.GET)	
+    	String clearOldGen() {
+		
+		this.getOldGenRepo().clear();
+		logAlways("Old Generation has been cleared.");
+		return "";
 	}
 
 }
