@@ -141,11 +141,11 @@
 							</div>  
 							  <p/>
 							<div class="row">
-							  <div class="col-lg-4">
+							  <div class="col-lg-6">
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span>!</button>
+									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> Z!</button>
 								  </span>
 								  <input id="id_fixedDelayMilliseconds" type="text" class="form-control input-xs"  />  								   
 								</div>
@@ -203,6 +203,90 @@
 				
 			</div>       
 			<p/>
+			<h2>
+				<span th:text="' ' + ${oldGenMessage}"></span>
+			</h2>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">        
+				                                   
+				  
+				</div>                                                      
+				<div class="row">                                           
+
+				  <div class="col-md-12"> 
+						<p/>
+			<div class="container-fluid" >
+                                           
+						
+							<div class="row">
+				  <div class="col-lg-12">
+				  	<span th:text="' ' + ${oldGenDescription}"></span>
+				  </div>
+							</div>  
+							  <p/>
+							
+							<div class="row">
+							  <div class="col-md-3">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-8">
+								  <span class="input-group-btn">
+									<button id="id_oldGenRequestCountThresholdForPruning_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> A!</button>
+								  </span>
+								  <input id="id_oldGenRequestCountThresholdForPruning" type="text" class="form-control input-xs" />
+																	  
+
+								</div>
+							  </div>
+							  <div class="col-md-2">	
+							  <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Controller.java#L82-L86', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+							  </div>
+							  <div class="col-md-6"><span th:text="' ' + ${updateADescription}"></span></div>
+							</div>  							
+							  <p/>
+							<div class="row">
+							  <div class="col-md-3">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-8">
+								  <span class="input-group-btn">
+									<button id="id_oldGenMaxBytes_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> B!</button>
+								  </span>
+								  <input id="id_oldGenMaxBytes" type="text" class="form-control input-xs"  />
+								  
+								</div>
+							  </div>
+							  <div class="col-md-2">
+							  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Controller.java#L82-L86', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+							  </div>						
+							  <div class="col-md-6"><span th:text="' ' + ${updateBDescription}"></span></div>
+							</div> 
+							  <p/>
+							<div class="row">
+							  <div class="col-md-3">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-8">
+								  <span class="input-group-btn">
+									<button id="id_oldGenMaxExpirationMs_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> C!</button>
+								  </span>
+								  <input id="id_oldGenMaxExpirationMs" type="text" class="form-control input-xs"  />
+								  
+								</div>
+							  </div>
+							  <div class="col-md-2">
+							  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Controller.java#L82-L86', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+							  </div>						
+							  <div class="col-md-6"><span th:text="' ' + ${updateCDescription}"></span></div>
+							</div> 
+							
+
+							</div> 
+							
+							  <p/>
+							
+  <p/>
+					 </div>               
+				</div>                                                      
+			</div>
+			
 			<p/>
 					<div id="alert_placeholder"></div>
 						
@@ -254,6 +338,15 @@
 
 				var uuidImplementation = cfgXml.getElementsByTagName('uuidImplementation')[0].childNodes[0].nodeValue;
 				document.getElementById("id_uuidImplementation").checked = (uuidImplementation.trim()==="1") ? true : false;
+
+				var oldGenRequestCountThresholdForPruning = cfgXml.getElementsByTagName('oldGenRequestCountThresholdForPruning')[0].childNodes[0].nodeValue;
+				document.getElementById("id_oldGenRequestCountThresholdForPruning").value = oldGenRequestCountThresholdForPruning.trim();
+
+				var oldGenMaxBytes = cfgXml.getElementsByTagName('oldGenMaxBytes')[0].childNodes[0].nodeValue;
+				document.getElementById("id_oldGenMaxBytes").value = oldGenMaxBytes.trim();
+
+				var oldGenMaxExpirationMs = cfgXml.getElementsByTagName('oldGenMaxExpirationMs')[0].childNodes[0].nodeValue;
+				document.getElementById("id_oldGenMaxExpirationMs").value = oldGenMaxExpirationMs.trim();
 
 				
            }
@@ -334,6 +427,18 @@
  		   document.getElementById('id_fixedDelayMilliseconds_btn').onclick = function() {
 				var fixedDelayMilliseconds = document.getElementById("id_fixedDelayMilliseconds").value;
 		   		sendConfigChange("fixedDelayMilliseconds", fixedDelayMilliseconds.trim() );
+		   };
+ 		   document.getElementById('id_oldGenRequestCountThresholdForPruning_btn').onclick = function() {
+				var oldGenRequestCountThresholdForPruning = document.getElementById("id_oldGenRequestCountThresholdForPruning").value;
+		   		sendConfigChange("oldGenRequestCountThresholdForPruning", oldGenRequestCountThresholdForPruning.trim() );
+		   };
+ 		   document.getElementById('id_oldGenMaxBytes_btn').onclick = function() {
+				var oldGenMaxBytes = document.getElementById("id_oldGenMaxBytes").value;
+		   		sendConfigChange("oldGenMaxBytes", oldGenMaxBytes.trim() );
+		   };
+ 		   document.getElementById('id_oldGenMaxExpirationMs_btn').onclick = function() {
+				var oldGenMaxExpirationMs = document.getElementById("id_oldGenMaxExpirationMs").value;
+		   		sendConfigChange("oldGenMaxExpirationMs", oldGenMaxExpirationMs.trim() );
 		   };
            
            
