@@ -40,6 +40,9 @@ public class UI {
 	@Value("${update.c.description:test}")
 	private String updateCDescription = "bytes are retained for a random duration, this is the upper bound (milliseconds)";
 	
+	@Value("${clear.old.gen.description:test}")
+	private String clearOldGenDescription = "Call the .clear() method on the singleton/map with old gen data.";
+	
 	@Value("${busy.update:test}")
 	private String busyUpdate = "Update";
 		
@@ -61,6 +64,7 @@ public class UI {
         model.addAttribute("updateADescription", this.updateADescription);
         model.addAttribute("updateBDescription", this.updateBDescription);
         model.addAttribute("updateCDescription", this.updateCDescription);
+        model.addAttribute("clearOldGenDescription", this.clearOldGenDescription);
         model.addAttribute("busyUpdate", this.busyUpdate);
         model.addAttribute("busySleep", this.busySleep);
         model.addAttribute("codeLink", this.codeLink);
