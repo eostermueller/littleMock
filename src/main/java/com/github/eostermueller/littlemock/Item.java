@@ -3,6 +3,7 @@ package com.github.eostermueller.littlemock;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -13,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Item {
 	static int min = 1;
 	static int max = 20;
-	static AtomicLong indexIntoRandomArray = new AtomicLong();
+	static AtomicInteger indexIntoRandomArray = new AtomicInteger();
 	private static Random random = new Random();
 	
 	public void process(int j) {
@@ -48,7 +49,7 @@ public class Item {
 			if (max > Item.myRndArry.length)
 				throw new RuntimeException("When Controller.getConfig().getRandomIntegerImplementation() ==1, max must be <= 20.  Instead was [" + max + "]");
 
-			int aryIndex = (int)Item.indexIntoRandomArray.getAndIncrement() % Item.myRndArry.length;
+			int aryIndex = (int)  Math.abs(Item.indexIntoRandomArray.getAndIncrement()) % Item.myRndArry.length;
 			rc = Item.myRndArry[ aryIndex ];
 			break;
 			//Todo:  expose '2' as an option
