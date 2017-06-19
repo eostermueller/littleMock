@@ -2,8 +2,9 @@
  ####
  ####   gctime
  ####
- ####   Plug-it-in-now GC overhead measurements
+ ####   Plug-it-in-now GC overhead measurements for both young and old gen.
  ####   Why wait for verbosegc analysis?  Get Java GC overhead metrics now.
+ ####   
 
 
   bash:    ==> ./gctime.sh <myJavaPid>
@@ -11,10 +12,10 @@
 
   Instructions:  
 	1) Make sure JAVA_HOME/bin is in the PATH (for jstat)
-	2) For MS-Win, download and unzip the following zip file.  Unzip gawk.exe and place it in a folder in the PATH
-	   http://unxutils.sourceforge.net/UnxUtils.zip
+	2) For MS-Win, download the following zip file.  Unzip gawk.exe into a folder in the PATH
+	   	http://unxutils.sourceforge.net/UnxUtils.zip
 
-  Used as above, this script shows GC times / second for young and new generation GC.   
+  This script shows GC times / second for young and new generation GC.   
   This script subtracts previous row from the current row of jstat output  for the 3 selected columns).
   jstat time columns display only cumulative gc time (also in seconds).
 
