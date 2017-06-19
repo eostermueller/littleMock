@@ -38,7 +38,10 @@ public class UI {
 	private String updateBDescription = "byte counts are randomly allocated, this is the upper bound";
 	
 	@Value("${update.c.description:test}")
-	private String updateCDescription = "bytes are retained for a random duration, this is the upper bound (milliseconds)";
+	private String updateCDescription = "min range of duration for which bytes are retained (selected at random / unit = ms)";
+	
+	@Value("${update.d.description:test}")
+	private String updateDDescription = "max range of duration for which bytes are retained (selected at random / unit = ms)";
 	
 	@Value("${clear.old.gen.description:test}")
 	private String clearOldGenDescription = "Call the .clear() method on the singleton/map with old gen data.";
@@ -64,6 +67,7 @@ public class UI {
         model.addAttribute("updateADescription", this.updateADescription);
         model.addAttribute("updateBDescription", this.updateBDescription);
         model.addAttribute("updateCDescription", this.updateCDescription);
+        model.addAttribute("updateDDescription", this.updateDDescription);
         model.addAttribute("clearOldGenDescription", this.clearOldGenDescription);
         model.addAttribute("busyUpdate", this.busyUpdate);
         model.addAttribute("busySleep", this.busySleep);

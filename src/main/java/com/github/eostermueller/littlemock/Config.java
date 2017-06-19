@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
 
 /**
- * Default values are set to be the slowest configuration, performance-wise.
  * @author erikostermueller
  *
  */
@@ -21,10 +20,11 @@ public class Config {
 	private  int processingIterations = 100; 
 	private  int fixedDelayMilliseconds = 0; 
 	private  boolean fileCacheEnabled = false;
+	private int oldGenMinExpirationMs = 0; 
 	private int oldGenMaxExpirationMs = 60000; //set expirations time stamps that are System.currentTimeMillis() + random value, with this variable as the max.
 	private int oldGenMaxBytes = 1024; //at most, add this many bytes to the old gen repository.
 	private int oldGenRequestCountThresholdForPruning = 0;
-
+	
 	private IntegerChangeListener oldGenRequestCountThresholdForPruning_changeListener;
 
 	/**
@@ -120,7 +120,7 @@ public class Config {
     	sb.append("\n    <processingItems>").append(this.getProcessingItems() ).append("    </processingItems>");
     	sb.append("\n    <processingIterations>").append(this.getProcessingIterations() ).append("    </processingIterations>");
     	sb.append("\n    <fixedDelayMilliseconds>").append(this.getFixedDelayMilliseconds() ).append("    </fixedDelayMilliseconds>");
-
+    	sb.append("\n    <oldGenMinExpirationMs>").append(this.getOldGenMinExpirationMs() ).append("    </oldGenMinExpirationMs>");
     	sb.append("\n    <oldGenMaxExpirationMs>").append(this.getOldGenMaxExpirationMs() ).append("    </oldGenMaxExpirationMs>");
     	sb.append("\n    <oldGenMaxBytes>").append(this.getOldGenMaxBytes() ).append("    </oldGenMaxBytes>");
     	sb.append("\n    <oldGenRequestCountThresholdForPruning>").append( this.getOldGenRequestCountThresholdForPruning() ).append("    </oldGenRequestCountThresholdForPruning>");
@@ -165,10 +165,19 @@ public class Config {
 			this.logAlways("oldGenRequestCountThresholdForPruning set to [" + this.oldGenRequestCountThresholdForPruning + "]");
 		}
 	}
+	public int getOldGenMinExpirationMs() {
+		return oldGenMinExpirationMs;
+	}
+	public void setOldGenMinExpirationMs(Integer val) {
+		if (val != null) {
+			this.oldGenMinExpirationMs = val;
+			this.logAlways("oldGenMinExpiration set to [" + this.oldGenMinExpirationMs + "]");
+		}
+	}
 	public OldGenerationData createData() {
 		
 		long expirationForOldGenBytes = System.currentTimeMillis()+
-				ThreadLocalRandom.current().nextInt( getOldGenMaxExpirationMs() );
+				ThreadLocalRandom.current().nextInt( getOldGenMinExpirationMs(), getOldGenMaxExpirationMs() );
 
 		int oldGenBytesToCreate = ThreadLocalRandom.current().nextInt( getOldGenMaxBytes() );
 

@@ -116,11 +116,35 @@
 			<argument>-classpath</argument>
 		        <classpath /> 
 			
-			<!-- #### Start of XML optimizations
+			<!-- #### Start of XML optimizations 
 			<argument>-Dcom.sun.org.apache.xml.internal.dtm.DTMManager=com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault</argument> 
 			<argument>-Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl</argument>
 			<argument>-Djavax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom=com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl</argument> 
-			    #### End of XML optimizations -->
+			     #### End of XML optimizations -->
+
+			<!-- size the old/new gen  -->
+			<argument>-Xmx1g</argument>
+			<argument>-XX:NewSize=512m</argument>
+			<argument>-XX:MaxNewSize=512m</argument>
+
+			<!-- choose/configure GC algorithm -->
+			<argument>-XX:+UseConcMarkSweepGC</argument>
+			<argument>-XX:ConcGCThreads=4</argument>
+			<!-- -XX:+UseG1GC 		-->
+			<!-- -XX:+UseParallelOldGC 	-->
+			<!-- -XX:+UseSerialGC 		-->
+
+			<!-- verbose GC logging -->
+			<argument>-Xloggc:gc.log</argument>
+			<argument>-verbose:gc</argument>
+			<argument>-XX:+PrintGCDetails</argument>
+			<argument>-XX:+PrintGCDateStamps</argument>
+			<argument>-XX:+PrintGCTimeStamps</argument>
+			<argument>-XX:+UseGCLogFileRotation</argument>
+			<argument>-XX:NumberOfGCLogFiles=5</argument>
+			<argument>-XX:GCLogFileSize=10m </argument>
+			<argument>-XX:+PrintTenuringDistribution</argument>
+			<argument>-verbose:sizes</argument>
 
 			<argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument>
 			<argument>-jar</argument>

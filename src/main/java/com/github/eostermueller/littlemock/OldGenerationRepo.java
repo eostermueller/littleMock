@@ -1,8 +1,9 @@
 package com.github.eostermueller.littlemock;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -43,6 +44,7 @@ public class OldGenerationRepo implements IntegerChangeListener {
 	}
 
 	public boolean isEnabled() {
+		//System.out.println("ogr.isEnabled [" + this.ynEnabled.get() + "]");
 		return this.ynEnabled.get();
 	}
 	public void setEnabled(boolean val) {
@@ -50,11 +52,13 @@ public class OldGenerationRepo implements IntegerChangeListener {
 	}
 	public static class OldGenerationData {
 
-		byte[] data = null;
+		List<MyMemoryLeak> wrappedData = new ArrayList<MyMemoryLeak>();
 		long expirationTimestamp = 0;
 		public OldGenerationData(long val, int byteCount) {
 			this.expirationTimestamp = val;
-			data = new byte[byteCount];
+			
+			for(int i = 0; i < byteCount; i++)
+				wrappedData.add(new MyMemoryLeak() );
 		}
 		public long getExpirationTimestamp() {
 			return this.expirationTimestamp;
@@ -100,6 +104,7 @@ public class OldGenerationRepo implements IntegerChangeListener {
 	}
 	@Override
 	public void newValue(int val) {
+//		System.out.println("oldGenRepo rec'd count threshold [" + val + "]");
 		setOldGenRequestCountThresholdForPruning(val);
 	}
 

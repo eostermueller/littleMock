@@ -109,6 +109,7 @@ public class Controller implements EnvironmentAware {
     			@RequestParam(value="xpathFactoryCache", required=false) Boolean ynXPathFactoryCache,
     			@RequestParam(value="docBuilderCache", required=false) Boolean ynDocBuilderCache,
     			@RequestParam(value="fileCache", required=false) Boolean ynFileCache,
+    			@RequestParam(value="oldGenMinExpirationMs", required=false) Integer intOldGenMinExpirationMs,
     			@RequestParam(value="oldGenMaxExpirationMs", required=false) Integer intOldGenMaxExpirationMs,
     			@RequestParam(value="oldGenMaxBytes", required=false) Integer intOldGenMaxBytes,
     			@RequestParam(value="oldGenRequestCountThresholdForPruning", required=false) Integer intOldGenRequestCountThresholdForPruning
@@ -123,6 +124,10 @@ public class Controller implements EnvironmentAware {
    		getConfig().setProcessingItems(intProcessingItems);
    		getConfig().setProcessingIterations(intProcessingIterations);
    		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);
+   		
+   		
+   		Config c = getConfig();
+   		c.setOldGenMinExpirationMs(intOldGenMinExpirationMs);
    		getConfig().setOldGenMaxExpirationMs(intOldGenMaxExpirationMs);
    		getConfig().setOldGenMaxBytes(intOldGenMaxBytes);
    		getConfig().setOldGenRequestCountThresholdForPruning(intOldGenRequestCountThresholdForPruning);

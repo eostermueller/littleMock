@@ -36,7 +36,7 @@
 			</h2>
 			<div class="container-fluid" style="border:1px solid #cecece;">
 				<div class="row">                                           
-				  <div class="col-xs-12"> Implementation </div>
+				  <div class="col-xs-12"> XPath Implementation </div>
 				</div>                                                      
 				<div class="row">                                           
 				  
@@ -45,7 +45,7 @@
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_0" class="form-check-input" type="radio" name="exampleRadios" value="option1" checked="true" />
-    <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">Basic approach to XPath <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a> </a>
+    <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">[X0] Basic approach to XPath <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a> </a>
 
 														  	
     
@@ -55,13 +55,13 @@
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_1" class="form-check-input" type="radio" name="exampleRadios" value="option2" />
-    Avoid DOM parsing by caching it for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+    [X1] Avoid DOM parsing by caching it for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 <div class="form-check">
   <label class="form-check-label">
     <input id="id_xpath_2" class="form-check-input" type="radio" name="exampleRadios" value="option3" />
-    Avoid DOM parsing and XPath eval by caching HTTP response for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+    [X2] Avoid DOM parsing and XPath eval by caching HTTP response for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 
@@ -98,7 +98,7 @@
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_processingItems_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> X!</button>
+									<button id="id_processingItems_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [J]</button>
 								  </span>
 								  <input id="id_processingItems" type="text" class="form-control input-xs" />
 								  
@@ -115,7 +115,7 @@
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_processingIterations_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> Y!</button>
+									<button id="id_processingIterations_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [K]</button>
 								  </span>
 								  <input id="id_processingIterations" type="text" class="form-control input-xs"  />
 								  
@@ -145,7 +145,7 @@
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-3">
 								  <span class="input-group-btn">
-									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> Z!</button>
+									<button id="id_fixedDelayMilliseconds_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [L]</button>
 								  </span>
 								  <input id="id_fixedDelayMilliseconds" type="text" class="form-control input-xs"  />  								   
 								</div>
@@ -179,21 +179,21 @@
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_fileCache" class="form-check-input" type="checkbox" value=""/>
-							 File Cache
+							 [Q] File Cache
 							 <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L233-L241', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_uuidImplementation" class="form-check-input" type="checkbox" value=""/>
-							 Optimized UUID
+							 [R] Optimized UUID
 							 <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Item.java#L367-L373', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
 					   <div class="form-check">
 						   <label class="form-check-label">
 							 <input id="id_randomIntegerImplementation" class="form-check-input" type="checkbox" value=""/>
-							 Optimized Random Integer
+							 [S] Optimized Random Integer
 							  <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Item.java#L42-L50', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
 						 </div>
@@ -230,7 +230,7 @@
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-8">
 								  <span class="input-group-btn">
-									<button id="id_oldGenRequestCountThresholdForPruning_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> A!</button>
+									<button id="id_oldGenRequestCountThresholdForPruning_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [A]</button>
 								  </span>
 								  <input id="id_oldGenRequestCountThresholdForPruning" type="text" class="form-control input-xs" />
 																	  
@@ -249,7 +249,7 @@
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-8">
 								  <span class="input-group-btn">
-									<button id="id_oldGenMaxBytes_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> B!</button>
+									<button id="id_oldGenMaxBytes_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [B]</button>
 								  </span>
 								  <input id="id_oldGenMaxBytes" type="text" class="form-control input-xs"  />
 								  
@@ -266,7 +266,24 @@
 							  	<div class="input-group col-xs-1" ></div>
 								<div class="input-group col-xs-8">
 								  <span class="input-group-btn">
-									<button id="id_oldGenMaxExpirationMs_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> C!</button>
+									<button id="id_oldGenMinExpirationMs_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [C]</button>
+								  </span>
+								  <input id="id_oldGenMinExpirationMs" type="text" class="form-control input-xs"  />
+								  
+								</div>
+							  </div>
+							  <div class="col-md-2">
+							  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/9d71f5308c8e2cad9369362fa25f0a8db3f7264d/src/main/java/com/github/eostermueller/littlemock/Config.java#L171', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+							  </div>						
+							  <div class="col-md-6"><span th:text="' ' + ${updateCDescription}"></span></div>
+							</div> 
+							  <p/>
+							<div class="row">
+							  <div class="col-md-3">
+							  	<div class="input-group col-xs-1" ></div>
+								<div class="input-group col-xs-8">
+								  <span class="input-group-btn">
+									<button id="id_oldGenMaxExpirationMs_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span> [D]</button>
 								  </span>
 								  <input id="id_oldGenMaxExpirationMs" type="text" class="form-control input-xs"  />
 								  
@@ -275,7 +292,7 @@
 							  <div class="col-md-2">
 							  	<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/9d71f5308c8e2cad9369362fa25f0a8db3f7264d/src/main/java/com/github/eostermueller/littlemock/Config.java#L171', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 							  </div>						
-							  <div class="col-md-6"><span th:text="' ' + ${updateCDescription}"></span></div>
+							  <div class="col-md-6"><span th:text="' ' + ${updateDDescription}"></span></div>
 							</div> 
 
 							  <p/>
@@ -356,6 +373,9 @@
 
 				var oldGenMaxBytes = cfgXml.getElementsByTagName('oldGenMaxBytes')[0].childNodes[0].nodeValue;
 				document.getElementById("id_oldGenMaxBytes").value = oldGenMaxBytes.trim();
+
+				var oldGenMinExpirationMs = cfgXml.getElementsByTagName('oldGenMinExpirationMs')[0].childNodes[0].nodeValue;
+				document.getElementById("id_oldGenMinExpirationMs").value = oldGenMinExpirationMs.trim();
 
 				var oldGenMaxExpirationMs = cfgXml.getElementsByTagName('oldGenMaxExpirationMs')[0].childNodes[0].nodeValue;
 				document.getElementById("id_oldGenMaxExpirationMs").value = oldGenMaxExpirationMs.trim();
@@ -447,6 +467,10 @@
  		   document.getElementById('id_oldGenMaxBytes_btn').onclick = function() {
 				var oldGenMaxBytes = document.getElementById("id_oldGenMaxBytes").value;
 		   		sendConfigChange("oldGenMaxBytes", oldGenMaxBytes.trim() );
+		   };
+ 		   document.getElementById('id_oldGenMinExpirationMs_btn').onclick = function() {
+				var oldGenMinExpirationMs = document.getElementById("id_oldGenMinExpirationMs").value;
+		   		sendConfigChange("oldGenMinExpirationMs", oldGenMinExpirationMs.trim() );
 		   };
  		   document.getElementById('id_oldGenMaxExpirationMs_btn').onclick = function() {
 				var oldGenMaxExpirationMs = document.getElementById("id_oldGenMaxExpirationMs").value;
