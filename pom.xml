@@ -49,6 +49,13 @@
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		
 	
 		<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
 		<dependency>
@@ -123,7 +130,7 @@
 			     #### End of XML optimizations -->
 
 			<!-- size the old/new gen  -->
-			<argument>-Xmx1g</argument>
+			<argument>-Xmx1256m</argument>
 			<argument>-XX:NewSize=512m</argument>
 			<argument>-XX:MaxNewSize=512m</argument>
 

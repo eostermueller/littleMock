@@ -2,6 +2,7 @@ package com.github.eostermueller.littlemock;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
@@ -136,6 +137,11 @@ public class TestOldGenerationRepo {
 		assertEquals(0,repo.getSize());
 		
 	}
+	/**
+	 * This test gets java.lang.OutOfMemory: Java heap space
+	 * ...unless it has a large heap.
+	 */
+	@Ignore
 	@Test
 	public void testSizeOfAllocation() {
 		Runtime runtime = Runtime.getRuntime();

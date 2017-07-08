@@ -6,32 +6,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
+import com.github.eostermueller.littlemock.xslt.XsltProcessor;
 
 @RestController
 @EnableAutoConfiguration
 @SpringBootApplication
 public class Controller implements EnvironmentAware {
+	XsltProcessor xsltProcessor = null;
 
 	private String humanReadableConfig = "<uninitialized>";
 	
 	public Controller() {
 		this.repo = PlaybackRepository.SINGLETON;
+		
 		this.setOldGenRepo( new OldGenerationRepo() );
 		getConfig().setOldGenRequestCountThresholdForPruning_changeListener(this.getOldGenRepo());
+		
 	}
 
 	private Environment env;
@@ -42,7 +49,7 @@ public class Controller implements EnvironmentAware {
 		    method = RequestMethod.POST)	
     String home(@RequestBody String input) {
     	String rc = "<LittleMockError>HTTP input did not match any of the configured XPath expressions.  \n[" + humanReadableConfig + "]</LittleMockError>";
-    	
+    	StringBuilder sb = new StringBuilder();
     	try {
     		if (isInfo()) {
 	    		Controller.logInfo("####");
@@ -56,17 +63,39 @@ public class Controller implements EnvironmentAware {
     		
     		oldGenProcessing();
     		
+    		String xsltRc = xsltProcessing();
+    		sb.append("<xslt>"+ xsltRc + "</xslt>");
+    		
     	    rc = this.getRepository().getResponse(input);
-    	    
+    	    sb.append(rc);
     	    
     	    
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
-        return rc;
+        return sb.toString();
     }
 	
+	private String xsltProcessing() {
+		String rc = null;
+		switch( getConfig().getXsltImplementation() ) {
+			case 0:
+				rc = "";
+				//incur no overhead from xslt by default at startup.
+				break;
+			case 1:
+				rc = xsltProcessor.unPooledTransformerXslt();
+				break;
+			case 2:
+				rc = this.xsltProcessor.pooledTransformerXslt();
+				break;
+			default:
+				throw new UnsupportedOperationException("Xslt impl ["  + getConfig().getXsltImplementation() + "] is not supported.  only 0, 1, and 2");
+		}
+		return rc;
+	}
+
 	private void oldGenProcessing() {
 		
 		OldGenerationData data = getConfig().createData(); //somewhat randomized expiration time is encoded inside created object.
@@ -101,6 +130,7 @@ public class Controller implements EnvironmentAware {
     String config(
     			@RequestParam(value="logLevel", required=false) Integer intLogLevel,
     			@RequestParam(value="xpathImplementation", required=false) Integer intXPathImpl,
+    			@RequestParam(value="xsltImplementation", required=false) Integer intXsltImpl,
     			@RequestParam(value="uuidImplementation", required=false) Integer intUuidImpl,
     			@RequestParam(value="randomIntegerImplementation", required=false) Integer intRandomIntImpl,
     			@RequestParam(value="processingItems", required=false) Integer intProcessingItems,
@@ -118,6 +148,7 @@ public class Controller implements EnvironmentAware {
     	
    		getConfig().setCurrentLogLevel(intLogLevel);
    		getConfig().setXPathImplementation(intXPathImpl);
+   		getConfig().setXsltImplementation(intXsltImpl);
    		getConfig().setUuidImplementation(intUuidImpl);
    		getConfig().setRandomIntegerImplementation(intRandomIntImpl);
    		getConfig().setFileCacheEnabled(ynFileCache);
@@ -146,7 +177,18 @@ public class Controller implements EnvironmentAware {
 	OldGenerationRepo oldGenRepo = null; 
 	
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Controller.class, args);
+        
+		ApplicationContext ac = SpringApplication.run(Controller.class, args);
+        ServletContext sc = null;
+                 if (ac instanceof WebApplicationContext) {
+                         WebApplicationContext wac = (WebApplicationContext)ac;
+                         sc = wac.getServletContext();
+                 }
+		
+//		String contextPath = sc.getRealPath(File.separator);
+//		System.out.println("real path [" + contextPath + "]");
+//	/private/var/folders/0g/kw0y_65d6xq9w3944219hwc80000gn/T/tomcat-docbase.1459412510349223373.8080/
+        
     }
     
     /**
@@ -208,6 +250,13 @@ request.3.response.file=xml-anti-pattern.jmx
 	@Override
 	public void setEnvironment(Environment arg0) {
 		this.env = arg0;
+		
+		/*
+		 * Had to put load xslt here because env was not set during the time the Controller was executing :-(
+		 */
+		xsltProcessor = new XsltProcessor( env.getProperty("xslt.files"));
+		Controller.logAlways("Just loaded Xslt Repositories [" + this.xsltProcessor.getHumanReadableFileList() + "] ." );
+		
 	}
 
 	Document createFactoryAndParse(InputSource input) throws ParserConfigurationException, SAXException, IOException {

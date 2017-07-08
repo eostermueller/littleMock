@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
 
+
 /**
  * @author erikostermueller
  *
@@ -14,6 +15,7 @@ public class Config {
 
 	private  int currentLogLevel = 0;
 	private  int xpathImplementation = 0; 
+	private  int xsltImplementation = 0; 
 	private  int uuidImplementation = 0; 
 	private  int randomIntegerImplementation = 0; 
 	private  int processingItems = 100;
@@ -50,6 +52,16 @@ public class Config {
 		if (val!=null) {
 			this.xpathImplementation = val;
 			this.logAlways("XPathImplementation set to [" + this.xpathImplementation + "]");
+		}
+	}
+	
+	public int getXsltImplementation() {
+		return xsltImplementation;
+	}
+	public void setXsltImplementation(Integer val) {
+		if (val!=null) {
+			this.xsltImplementation = val;
+			this.logAlways("XsltImplementation set to [" + this.xsltImplementation + "]");
 		}
 	}
 	public int getUuidImplementation() {
@@ -115,6 +127,7 @@ public class Config {
     	sb.append("\n    <logLevel>").append(getCurrentLogLevel() ).append("    </logLevel>");
     	sb.append("\n    <fileCache>").append(isFileCacheEnabled() ).append("    </fileCache>");
     	sb.append("\n    <xpathImplementation>").append(this.getXPathImplementation() ).append("    </xpathImplementation>");
+    	sb.append("\n    <xsltImplementation>").append(this.getXsltImplementation() ).append("    </xsltImplementation>");
     	sb.append("\n    <uuidImplementation>").append(this.getUuidImplementation() ).append("    </uuidImplementation>");
     	sb.append("\n    <randomIntegerImplementation>").append(this.getRandomIntegerImplementation() ).append("    </randomIntegerImplementation>");
     	sb.append("\n    <processingItems>").append(this.getProcessingItems() ).append("    </processingItems>");
