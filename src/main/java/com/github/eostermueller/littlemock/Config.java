@@ -32,7 +32,7 @@ public class Config {
 	/**
 	 * Private ctor helps make this a singleton;
 	 */
-	private Config() { 
+	public Config() { 
 		
 		
 	}
@@ -174,7 +174,8 @@ public class Config {
 	public void setOldGenRequestCountThresholdForPruning(Integer val) {
 		if (val != null) {
 			this.oldGenRequestCountThresholdForPruning = val;
-			this.getOldGenRequestCountThresholdForPruning_changeListener().newValue(val);
+			if (this.getOldGenRequestCountThresholdForPruning_changeListener()!=null)
+				this.getOldGenRequestCountThresholdForPruning_changeListener().newValue(val);
 			this.logAlways("oldGenRequestCountThresholdForPruning set to [" + this.oldGenRequestCountThresholdForPruning + "]");
 		}
 	}
