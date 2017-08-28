@@ -19,53 +19,117 @@ import com.github.eostermueller.littlemock.Config;
 public enum PerformanceCode {
 	
 	X() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setXPathImplementation( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+//			return getClass().getSimpleName() + String.valueOf(config.getXPathImplementation()).trim();
+			return this.name() + String.valueOf(config.getXPathImplementation()).trim();
 		}
 	}
 	,J() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setProcessingItems( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getProcessingItems() ).trim();
 		}
 	}
 	,K() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setProcessingIterations( getCodeAndValue().getIntValue());
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getProcessingIterations() ).trim();
 		}
 	}
 	,L() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setFixedDelayMilliseconds( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getFixedDelayMilliseconds() ).trim();
 		}
 	}
 	,Q() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setFileCacheEnabled( getCodeAndValue().getBooleanValue() );
+		}
+		public String get(Config config)  {
+			boolean yn = config.isFileCacheEnabled();
+			String rc = "";
+			
+			if (yn)
+				rc = this.name() + "1";
+			else 
+				rc = this.name() + "0";
+			
+			return rc;
+		}
+	}
+	,R() {
+		public void set(Config config) throws InvalidCode {
+			config.setUUIDIsOptimized( getCodeAndValue().getBooleanValue() );
+		}
+		public String get(Config config)  {
+			boolean yn = config.isUuidOptimized();
+			String rc = "";
+			
+			if (yn)
+				rc = this.name() + "1";
+			else 
+				rc = this.name() + "0";
+			
+			return rc;
 		}
 	}
 	,S() {
-		public void apply(Config config) throws InvalidOption {
-			config.setFileCacheEnabled( getCodeAndValue().getBooleanValue() );
+		public void set(Config config) throws InvalidCode {
+			String value = getCodeAndValue().getValue().trim();
+			
+			if (value==null || value.length()==0 || value.equals("")) 
+				config.setRandomIntegerImplementation( 1 );
+			else if (Integer.parseInt(value)==0)
+				config.setRandomIntegerImplementation( 0 );
+			else if (Integer.parseInt(value)==1)
+				config.setRandomIntegerImplementation( 1 );
+			else throw new InvalidCode(getCodeAndValue().getCodeAndValue(),"only S or S0 or S1 are allowed.");
+			
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf( config.getRandomIntegerImplementation() ).trim();
 		}
 	}
 	,A() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setOldGenRequestCountThresholdForPruning( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getOldGenRequestCountThresholdForPruning() ).trim();
 		}
 	}
 	,B() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setOldGenMaxBytes( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getOldGenMaxBytes() ).trim();
 		}
 	}
 	,C() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setOldGenMinExpirationMs( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getOldGenMinExpirationMs() ).trim();
 		}
 	}
 	,D() {
-		public void apply(Config config) throws InvalidOption {
+		public void set(Config config) throws InvalidCode {
 			config.setOldGenMaxExpirationMs( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getOldGenMaxExpirationMs() ).trim();
 		}
 	}
 	;
@@ -80,7 +144,8 @@ public enum PerformanceCode {
 		return codeAndValue;
 	}
 	
-	public abstract void apply(Config c) throws InvalidOption;
+	public abstract void set(Config c) throws InvalidCode;
+	public abstract String get(Config c) throws InvalidCode;
 	
 
 }

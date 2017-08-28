@@ -1,13 +1,13 @@
 package com.github.eostermueller.littlemock.perfkey;
 
-public class InvalidOption extends Exception {
+public class InvalidCode extends Exception {
 
 	NumberFormatException numberFormatException = null;
 	String codeAndValue = null;
 	String message = null;
-	public InvalidOption() {};
+	public InvalidCode() {};
 	
-	public InvalidOption(String codeAndValue, String message) {
+	public InvalidCode(String codeAndValue, String message) {
 		this.codeAndValue = codeAndValue;
 		this.message = message;
 	}
@@ -23,7 +23,7 @@ public class InvalidOption extends Exception {
 		return this.codeAndValue;
 	}
 
-	public InvalidOption(NumberFormatException nfe, String codeAndValue) {
+	public InvalidCode(NumberFormatException nfe, String codeAndValue) {
 		this.numberFormatException = nfe;
 		this.codeAndValue = codeAndValue;
 	}

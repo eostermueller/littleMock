@@ -29,7 +29,44 @@
 
 	<div class="container">
 		<div class="starter-template">
-			<h1>Faster Tuning with Manual Thread Dump Profiling</h1>
+			<h1>Faster Tuning with MTDP (Manual Thread Dump Profiling)</h1>
+			<h2>
+				<span th:text="' ' + ${perfKeyMessage}"></span>
+			</h2>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+			
+				<div class="row">
+				<p></p>                                           
+				  <div class="col-xs-12"> <span th:text="' ' + ${perfKeyDescr01}"></span>
+				  <p></p>
+				  <ol>
+				  <li><span th:text="' ' + ${perfKeyDescr02}"></span>
+				  <p></p>
+				<div class="row">                                           
+				  
+				  <div class="col-xs-12"> 
+							<div class="row">
+							  <div class="col-md-12">
+								<div class="input-group">
+								  <span class="input-group-btn">
+									<button id="id_perfKey_btn" class="btn btn-secondary btn-xs" type="button"><span th:text="' ' + ${busyUpdate}"></span></button>
+								  </span>
+								  <input id="id_perfKey" type="text" class="form-control input-xs"  />
+								</div>
+							  </div>
+							</div> 
+							<p></p>
+					 </div>               
+				</div>                                                      
+				  
+				  </li>
+				  
+				  <li><span th:text="' ' + ${perfKeyDescr03}"></span></li>
+				  </ol>
+				   </div>
+				</div>                                                      
+				
+			</div>       
 
 			<h2>
 				<span th:text="' ' + ${xpathMessage}"></span>
@@ -185,7 +222,7 @@
 						 </div>
 					   <div class="form-check">
 						   <label class="form-check-label">
-							 <input id="id_uuidImplementation" class="form-check-input" type="checkbox" value=""/>
+							 <input id="id_uuidIsOptimized" class="form-check-input" type="checkbox" value=""/>
 							 [R] Optimized UUID
 							 <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/Item.java#L367-L373', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 						   </label>
@@ -345,6 +382,12 @@
                            showalert("Server up, ready to tune!","alert-success");
                    }
            }
+           function refreshPerfKeyOnly() {
+        	   
+				var perfKey = cfgXml.getElementsByTagName('perfKey')[0].childNodes[0].nodeValue;
+				document.getElementById("id_perfKey").value = perfKey.trim();
+        	   
+           }
            function refreshScreen() {
            
 				var xpathImplementation = cfgXml.getElementsByTagName('xpathImplementation')[0].childNodes[0].nodeValue;
@@ -365,8 +408,9 @@
 				var randomIntegerImplementation = cfgXml.getElementsByTagName('randomIntegerImplementation')[0].childNodes[0].nodeValue;
 				document.getElementById("id_randomIntegerImplementation").checked = (randomIntegerImplementation.trim()==="1") ? true : false;
 
-				var uuidImplementation = cfgXml.getElementsByTagName('uuidImplementation')[0].childNodes[0].nodeValue;
-				document.getElementById("id_uuidImplementation").checked = (uuidImplementation.trim()==="1") ? true : false;
+				var varUuidIsOptimized = cfgXml.getElementsByTagName('uuidIsOptimized')[0].childNodes[0].nodeValue;
+				console.log("found uuidIsOptimized=" + varUuidIsOptimized + " from server");
+				document.getElementById("id_uuidIsOptimized").checked = (varUuidIsOptimized.trim()==="true") ? true : false;
 
 				var oldGenRequestCountThresholdForPruning = cfgXml.getElementsByTagName('oldGenRequestCountThresholdForPruning')[0].childNodes[0].nodeValue;
 				document.getElementById("id_oldGenRequestCountThresholdForPruning").value = oldGenRequestCountThresholdForPruning.trim();
@@ -379,6 +423,10 @@
 
 				var oldGenMaxExpirationMs = cfgXml.getElementsByTagName('oldGenMaxExpirationMs')[0].childNodes[0].nodeValue;
 				document.getElementById("id_oldGenMaxExpirationMs").value = oldGenMaxExpirationMs.trim();
+
+				var perfKey = cfgXml.getElementsByTagName('perfKey')[0].childNodes[0].nodeValue;
+				document.getElementById("id_perfKey").value = perfKey.trim();
+				//window.location.reload(true);
 
 				
            }
@@ -436,8 +484,9 @@
  		   document.getElementById('id_randomIntegerImplementation').onclick = function() {
 		   		sendConfigChange("randomIntegerImplementation", this.checked ? "1" : "0" );
 		   };
- 		   document.getElementById('id_uuidImplementation').onclick = function() {
-		   		sendConfigChange("uuidImplementation", this.checked ? "1" : "0" );
+ 		   document.getElementById('id_uuidIsOptimized').onclick = function() {
+ 			   console.log("uuidIsOptimized clicked [" + this.checked  + "]");
+ 			  sendConfigChange("uuidIsOptimized", this.checked ? "true" : "false" );
 		   };
  		   document.getElementById('id_xpath_0').onclick = function() {
 		   		sendRadioState();
@@ -475,6 +524,10 @@
  		   document.getElementById('id_oldGenMaxExpirationMs_btn').onclick = function() {
 				var oldGenMaxExpirationMs = document.getElementById("id_oldGenMaxExpirationMs").value;
 		   		sendConfigChange("oldGenMaxExpirationMs", oldGenMaxExpirationMs.trim() );
+		   };
+ 		   document.getElementById('id_perfKey_btn').onclick = function() {
+				var myPerfKey = document.getElementById("id_perfKey").value;
+		   		sendConfigChange("perfKey", myPerfKey.trim() );
 		   };
            
            
@@ -515,7 +568,9 @@
 					xhr.send();
 					function displayStatus(event) {
 							if (xhr.readyState == 4 && xhr.status == 200) {
-									showalert("Change applied: "+lastChangeUrl,"alert-success");
+									/* showalert("Change applied: "+lastChangeUrl,"alert-success"); */
+									cfgXml = xhr.responseXML;
+									refreshScreen();
 							}
 					}
            }

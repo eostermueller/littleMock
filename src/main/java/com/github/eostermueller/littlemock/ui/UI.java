@@ -13,6 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UI {
 
 	// inject via application.properties
+	@Value("${perfKey.message:test}")
+	private String perfKeyMessage = "Performance Key";
+
+	@Value("${perfKey.description.01:test}")
+	private String perfKeyDescr01 = "Performance Key";
+
+	@Value("${perfKey.description.02:test}")
+	private String perfKeyDescr02 = "Performance Key";
+
+	@Value("${perfKey.description.03:test}")
+	private String perfKeyDescr03 = "Performance Key";
+	
 	@Value("${xpath.message:test}")
 	private String xpathMessage = "XPath Optimizations";
 	
@@ -58,6 +70,13 @@ public class UI {
     @RequestMapping("/ui")
     public String optimizations(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
+        model.addAttribute("perfKeyMessage", this.perfKeyMessage);
+        model.addAttribute("perfKeyDescr01", this.perfKeyDescr01);
+        model.addAttribute("perfKeyDescr02", this.perfKeyDescr02);
+        model.addAttribute("perfKeyDescr03", this.perfKeyDescr03);
+        
+        
+        
         model.addAttribute("xpathMessage", this.xpathMessage);
         model.addAttribute("otherMessage", this.otherMessage);
         model.addAttribute("busyMessage", this.busyMessage);

@@ -23,6 +23,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.github.eostermueller.littlemock.OldGenerationRepo.OldGenerationData;
+import com.github.eostermueller.littlemock.perfkey.InvalidCode;
+import com.github.eostermueller.littlemock.perfkey.PerformanceKey;
 import com.github.eostermueller.littlemock.xslt.XsltProcessor;
 
 @RestController
@@ -126,12 +128,58 @@ public class Controller implements EnvironmentAware {
 		Collections.sort(myList);
 		
 	}
+    
+    
+    /**
+     * Apply a comma-separated parameter string, called a performanceKey, in a single operation.
+     * The individual 'codes' in a performanceKey string (between the commas) each map to a single parameter in Controller#config().
+     * This enables two users on separate machines to easily reproduce a complicated, multi-parameter littleMock performance
+     * scenario by simply dialing in the same perfKey.
+     * The code mapping is defined in com/github/eostermueller/littlemock/perfkey/PerformanceCode 
+     * @param myPerfKey EXAMPLE: X2,J25,K26,L0,Q,S,A10,B65535,C0,D10
+     * @return
+     * @throws IOException
+     * @throws InvalidCode
+     */
+//	@RequestMapping(value="/perfKey", method=RequestMethod.GET, produces = { "application/xml", "text/xml" })
+//    String perfKey(
+//			@RequestParam(value="value", required=false) String myPerfKey
+//			) throws IOException, InvalidCode {
+//		
+//		PerformanceKey pk = new PerformanceKey(getConfig(), myPerfKey);
+//		pk.apply();
+//		
+//    	return getConfig().toXmlString();
+//	}
+    
+	/**
+	 * Set individual parameters that change performance characteristics for 
+	 * this web application, even while load is being applied.
+	 * @param intLogLevel
+	 * @param intXPathImpl
+	 * @param intXsltImpl
+	 * @param ynUuidIsOptimized
+	 * @param intRandomIntImpl
+	 * @param intProcessingItems
+	 * @param intProcessingIterations
+	 * @param intFixedDelayMilliseconds
+	 * @param ynXPathFactoryCache
+	 * @param ynDocBuilderCache
+	 * @param ynFileCache
+	 * @param intOldGenMinExpirationMs
+	 * @param intOldGenMaxExpirationMs
+	 * @param intOldGenMaxBytes
+	 * @param intOldGenRequestCountThresholdForPruning
+	 * @return
+	 * @throws IOException
+	 * @throws InvalidCode 
+	 */
 	@RequestMapping(value="/config", method=RequestMethod.GET, produces = { "application/xml", "text/xml" })
     String config(
     			@RequestParam(value="logLevel", required=false) Integer intLogLevel,
     			@RequestParam(value="xpathImplementation", required=false) Integer intXPathImpl,
     			@RequestParam(value="xsltImplementation", required=false) Integer intXsltImpl,
-    			@RequestParam(value="uuidImplementation", required=false) Integer intUuidImpl,
+    			@RequestParam(value="uuidIsOptimized", required=false) Boolean ynUuidIsOptimized,
     			@RequestParam(value="randomIntegerImplementation", required=false) Integer intRandomIntImpl,
     			@RequestParam(value="processingItems", required=false) Integer intProcessingItems,
     			@RequestParam(value="processingIterations", required=false) Integer intProcessingIterations,
@@ -142,26 +190,49 @@ public class Controller implements EnvironmentAware {
     			@RequestParam(value="oldGenMinExpirationMs", required=false) Integer intOldGenMinExpirationMs,
     			@RequestParam(value="oldGenMaxExpirationMs", required=false) Integer intOldGenMaxExpirationMs,
     			@RequestParam(value="oldGenMaxBytes", required=false) Integer intOldGenMaxBytes,
-    			@RequestParam(value="oldGenRequestCountThresholdForPruning", required=false) Integer intOldGenRequestCountThresholdForPruning
+    			@RequestParam(value="oldGenRequestCountThresholdForPruning", required=false) Integer intOldGenRequestCountThresholdForPruning,
+    			@RequestParam(value="perfKey", required=false) String perfKey
     			
-    			) throws IOException {
-    	
-   		getConfig().setCurrentLogLevel(intLogLevel);
-   		getConfig().setXPathImplementation(intXPathImpl);
-   		getConfig().setXsltImplementation(intXsltImpl);
-   		getConfig().setUuidImplementation(intUuidImpl);
-   		getConfig().setRandomIntegerImplementation(intRandomIntImpl);
-   		getConfig().setFileCacheEnabled(ynFileCache);
-   		getConfig().setProcessingItems(intProcessingItems);
-   		getConfig().setProcessingIterations(intProcessingIterations);
-   		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);
-   		
-   		
-   		Config c = getConfig();
-   		c.setOldGenMinExpirationMs(intOldGenMinExpirationMs);
-   		getConfig().setOldGenMaxExpirationMs(intOldGenMaxExpirationMs);
-   		getConfig().setOldGenMaxBytes(intOldGenMaxBytes);
-   		getConfig().setOldGenRequestCountThresholdForPruning(intOldGenRequestCountThresholdForPruning);
+    			) throws IOException, InvalidCode {
+
+		if (perfKey!=null && perfKey.trim().length()!=0) {
+			/**
+		     * Apply a comma-separated parameter string, called a performanceKey.  This string specifies multiple codes at one time.
+		     * The individual 'codes' in a performanceKey string (between the commas) each map to a single parameter in Controller#config().
+		     * This enables two users on separate machines to easily reproduce a complicated, multi-parameter littleMock performance
+		     * scenario by simply dialing in the same perfKey.
+		     * The code mapping is defined in com/github/eostermueller/littlemock/perfkey/PerformanceCode
+		     * EXAMPLE perfKey: X2,J25,K26,L0,Q,S,A10,B65535,C0,D10 
+		     */ 
+			
+			/**
+			 * Set defaults first.
+			 */
+			new PerformanceKey(getConfig(), Config.DEFAULT_KEY).apply();
+			
+			/**
+			 * override defaults with caller's perfKey
+			 */
+			new PerformanceKey(getConfig(), perfKey).apply();
+			
+		} else {
+	   		getConfig().setCurrentLogLevel(intLogLevel);
+	   		getConfig().setXPathImplementation(intXPathImpl);
+	   		getConfig().setXsltImplementation(intXsltImpl);
+	   		getConfig().setUUIDIsOptimized(ynUuidIsOptimized);
+	   		getConfig().setRandomIntegerImplementation(intRandomIntImpl);
+	   		getConfig().setFileCacheEnabled(ynFileCache);
+	   		getConfig().setProcessingItems(intProcessingItems);
+	   		getConfig().setProcessingIterations(intProcessingIterations);
+	   		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);
+	   		
+	   		
+	   		Config c = getConfig();
+	   		c.setOldGenMinExpirationMs(intOldGenMinExpirationMs);
+	   		getConfig().setOldGenMaxExpirationMs(intOldGenMaxExpirationMs);
+	   		getConfig().setOldGenMaxBytes(intOldGenMaxBytes);
+	   		getConfig().setOldGenRequestCountThresholdForPruning(intOldGenRequestCountThresholdForPruning);
+		}
     	
     	return getConfig().toXmlString();
     }	

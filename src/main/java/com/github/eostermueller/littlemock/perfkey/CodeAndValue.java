@@ -15,14 +15,14 @@ public class CodeAndValue {
 	/**
 	 * 
 	 * @return
-	 * @throws InvalidOption
+	 * @throws InvalidCode
 	 */
-	public String getCode() throws InvalidOption {
+	public String getCode() throws InvalidCode {
 		int i = getIndexOfLastLetter();
 		return getCodeAndValue().substring(0,i+1);//+1 b/c substring does a -1, per its javadoc.
 	}
 	
-	public String getValue() throws InvalidOption {
+	public String getValue() throws InvalidCode {
 		String rcValue;
 		if (this.getCodeAndValue().length() == this.getCode().length())
 			rcValue = "";
@@ -37,35 +37,36 @@ public class CodeAndValue {
 	 * "Q" == true
 	 * "Q0" == false
 	 * @return
-	 * @throws InvalidOption
+	 * @throws InvalidCode
 	 */
-	public boolean getBooleanValue() throws InvalidOption {
+	public boolean getBooleanValue() throws InvalidCode {
 		boolean ynRC = false;
 		
-		if ( getValue().equals("") ) {
+		if ( getValue().equals("") )
 			ynRC = true;
-		} else if ( getValue().equals("0"))
+		else if ( getValue().equals("0"))
 			ynRC = false; 
-		else {
-			throw new InvalidOption(this.getCodeAndValue(),"Was expecting either [" + this.getCode() + "] (meaning true) or [" + this.getCode() + "0] (meaning faluse) for this boolean option.");
-		}
+		else if ( getValue().equals("1"))
+			ynRC = true; 
+		else
+			throw new InvalidCode(this.getCodeAndValue(),"Was expecting either [" + this.getCode() + "] (meaning true) or [" + this.getCode() + "0] (meaning false) or [" + this.getCode() + "1] (meaning true) for this boolean option.");
 	
 		
 		return ynRC;
 	}
-	public int getIntValue() throws InvalidOption {
+	public int getIntValue() throws InvalidCode {
 		int rc = -1;
 		try {
 			rc = Integer.parseInt(getValue() );
 		} catch (NumberFormatException nfe) {
-			throw new InvalidOption(nfe, this.getCodeAndValue() );
+			throw new InvalidCode(nfe, this.getCodeAndValue() );
 		}
 		return rc;
 	}
 	
-	public int getIndexOfLastLetter() throws InvalidOption {
+	public int getIndexOfLastLetter() throws InvalidCode {
 		if (!Character.isLetter(getCodeAndValue().charAt(0)))
-			throw new InvalidOption(getCodeAndValue(), "First char must be letter but instead fnd " + getCodeAndValue().charAt(0) );
+			throw new InvalidCode(getCodeAndValue(), "First char must be letter but instead fnd " + getCodeAndValue().charAt(0) );
 
 		int indexOfLastLetter = -1;
 		

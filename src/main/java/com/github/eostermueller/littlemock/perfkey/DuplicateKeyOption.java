@@ -1,6 +1,6 @@
 package com.github.eostermueller.littlemock.perfkey;
 
-public class DuplicateKeyOption extends InvalidOption {
+public class DuplicateKeyOption extends InvalidCode {
 	/**
 	 * 
 	 */

@@ -17,7 +17,15 @@ public class PerformanceKey {
 		this.perfKey = myPerfKey;
 	}
 
-	public void parse() throws InvalidOption, DuplicateKeyOption {
+	/**
+	 * Used when you want to know the perfKey for an existing Config object.
+	 * @param c
+	 */
+	public PerformanceKey(Config c) {
+		this.setConfig(c);
+	}
+
+	public void apply() throws InvalidCode, DuplicateKeyOption {
 		String[] perfKeyOptions = perfKey.split(DELIM);
 		for (String singlePerfKeyOption : perfKeyOptions) {
 			CodeAndValue codeAndValue = new CodeAndValue(singlePerfKeyOption.trim() );
@@ -34,7 +42,7 @@ public class PerformanceKey {
 					throw new CodeDoesNotExist(codeAndValue.getCodeAndValue(),iae);
 				}
 				myOption.setCodeAndValue(codeAndValue);
-				myOption.apply( getConfig() );
+				myOption.set( getConfig() );
 			}
 		}
 	}
@@ -44,6 +52,16 @@ public class PerformanceKey {
 	}
 	private Config getConfig() {
 		return config;
+	}
+
+	public String getKey() throws InvalidCode {
+		StringBuilder sb = new StringBuilder();
+		int count = 0;
+		for( PerformanceCode code : PerformanceCode.values() ) {
+			if (count++>0) sb.append(DELIM);
+			sb.append( code.get(getConfig() ) );
+		}
+		return sb.toString().trim();
 	}
 
 }

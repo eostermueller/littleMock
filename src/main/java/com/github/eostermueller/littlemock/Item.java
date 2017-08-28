@@ -373,13 +373,11 @@ public class Item {
 
 	public static String getUuid() {
 		UUID uuid = null;
-		switch ( Controller.getConfig().getUuidImplementation() ) {
-		case 0:
-			uuid = UUID.randomUUID();
-			break;
-		case 1:
+		if (Controller.getConfig().isUuidOptimized())
 			uuid =  new UUID(random.nextLong(), random.nextLong());
-		}
+		else
+			uuid = UUID.randomUUID();
+
 		return uuid.toString();
 	}
 	public Item() {

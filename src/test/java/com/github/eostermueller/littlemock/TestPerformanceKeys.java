@@ -8,13 +8,13 @@ import com.github.eostermueller.littlemock.Config;
 import com.github.eostermueller.littlemock.perfkey.CodeAndValue;
 import com.github.eostermueller.littlemock.perfkey.CodeDoesNotExist;
 import com.github.eostermueller.littlemock.perfkey.DuplicateKeyOption;
-import com.github.eostermueller.littlemock.perfkey.InvalidOption;
+import com.github.eostermueller.littlemock.perfkey.InvalidCode;
 import com.github.eostermueller.littlemock.perfkey.PerformanceKey;
 
 public class TestPerformanceKeys {
 
 	@Test
-	public void canParseSingleOption() throws DuplicateKeyOption, InvalidOption {
+	public void canParseSingleOption() throws DuplicateKeyOption, InvalidCode {
 		CodeAndValue codeAndValue = new CodeAndValue("A2");
 		assertEquals("A2", codeAndValue.getCodeAndValue() ); /* sanity check */
 		
@@ -23,13 +23,48 @@ public class TestPerformanceKeys {
 		assertEquals(2, codeAndValue.getIntValue() );
 	}
 
+	@Test public void canGetKeyFromDefaultConfig() throws InvalidCode {
+		Config c = new Config();
+		PerformanceKey pk = new PerformanceKey(c);
+		String perfKey = pk.getKey();
+		
+		assertEquals("X0,J100,K100,L0,Q0,S0,A0,B1024,C0,D60000", perfKey);
+	}
+	@Test public void canGetKeyFromSomeConfig() throws InvalidCode {
+		Config c = new Config();
+		/* X2 */ c.setXPathImplementation( 2 );
+		
+		/* J25 */ c.setProcessingItems(25);
+		
+		/* K26 */ c.setProcessingIterations( 26 );
+		
+		/* L0 */ c.setFixedDelayMilliseconds( 0 );
+		
+		/* Q */ c.setFileCacheEnabled( true );
+		
+		/* S */ c.setRandomIntegerImplementation( 1 );
+		
+		/* A10 */ c.setOldGenRequestCountThresholdForPruning(10);
+		
+		/* B65535 */  c.setOldGenMaxBytes( 65535 );
+		
+		/* C0 */  c.setOldGenMinExpirationMs( 0 );
+		
+		/* D10 */  c.setOldGenMaxExpirationMs(10);
+		
+		PerformanceKey pk = new PerformanceKey(c);
+		String perfKey = pk.getKey();
+		
+		assertEquals("X2,J25,K26,L0,Q,S1,A10,B65535,C0,D10", perfKey);
+	}
+	
 	@Test
-	public void canParseExistingKey() throws DuplicateKeyOption, InvalidOption {
+	public void canParseExistingKey() throws DuplicateKeyOption, InvalidCode {
 		String myPerfKey = "X2,J25,K26,L0,Q,S,A10,B65535,C0,D10"; //taken/altered frm ch12 of tjp
 		
 		Config c = new Config();
 		PerformanceKey pk = new PerformanceKey(c, myPerfKey);
-		pk.parse();
+		pk.apply();
 		
 		/* X2 */ assertEquals(2,c.getXPathImplementation() );
 		
@@ -41,7 +76,7 @@ public class TestPerformanceKeys {
 		
 		/* Q */ assertEquals(true, c.isFileCacheEnabled() );
 		
-		/* S */ assertEquals(0, c.getRandomIntegerImplementation() );
+		/* S */ assertEquals(1, c.getRandomIntegerImplementation() );
 		
 		/* A10 */ assertEquals(10, c.getOldGenRequestCountThresholdForPruning() );
 		
@@ -54,27 +89,27 @@ public class TestPerformanceKeys {
 	}
 	
 	@Test
-	public void canDetectMissingNumeric() throws InvalidOption {
+	public void canDetectMissingNumeric() throws InvalidCode {
 		String myPerfKey = "A";
 		try {
 			Config c = new Config();
 			PerformanceKey pk = new PerformanceKey(c, myPerfKey);
-			pk.parse();
+			pk.apply();
 			fail("should have thrown exception indicating that 'e' was an invalid option.");
-		} catch (InvalidOption io) {
+		} catch (InvalidCode io) {
 			assertEquals("A",io.getCodeAndValue() );
 			assertNotNull(io.getNumberFormatException() );
 		}
 	}
 	@Test
-	public void canDetectDuplicateKey() throws InvalidOption {
+	public void canDetectDuplicateKey() throws InvalidCode {
 		String myPerfKey = "A1,A2";
 		
 		try {
 			
 			Config c = new Config();
 			PerformanceKey pk = new PerformanceKey(c, myPerfKey);
-			pk.parse();
+			pk.apply();
 			fail("should have thrown exception indicating that the same code was found twice.");
 		} catch (DuplicateKeyOption dpko) {
 			assertEquals(myPerfKey,dpko.getRaw());
@@ -84,13 +119,13 @@ public class TestPerformanceKeys {
 		
 	}
 	@Test
-	public void canDetectNonExistentCode() throws InvalidOption {
+	public void canDetectNonExistentCode() throws InvalidCode {
 		String myPerfKey = "e3,A10";
 		
 		try {
 			Config c = new Config();
 			PerformanceKey pk = new PerformanceKey(c, myPerfKey);
-			pk.parse();
+			pk.apply();
 			fail("should have thrown exception indicating that 'e' was an invalid option.");
 		} catch (CodeDoesNotExist cdne) {
 			assertEquals("e3",cdne.getCodeAndValue() );
@@ -99,14 +134,14 @@ public class TestPerformanceKeys {
 	}
 	
 	@Test
-	public void canDetectDuplicateBooleanKey() throws InvalidOption {
+	public void canDetectDuplicateBooleanKey() throws InvalidCode {
 		//E0 does not exist, let's see if we can detect it.
 		String myPerfKey = "X2,Q,J25,K26,Q,S,A10,B65535,C0,D10"; //taken/altered frm ch12 of tjp
 		
 		try {
 			Config c = new Config();
 			PerformanceKey pk = new PerformanceKey(c, myPerfKey);
-			pk.parse();
+			pk.apply();
 			fail("should have thrown exception indicating that the same code was found twice.");
 		} catch (DuplicateKeyOption dpko) {
 			assertEquals(myPerfKey,dpko.getRaw());
