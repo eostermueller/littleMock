@@ -13,7 +13,7 @@ import com.github.eostermueller.littlemock.perfkey.PerformanceKey;
  */
 public class Config {
 	
-	public static final String DEFAULT_KEY = "X0,J100,K100,L0,Q0,S0,A0,B1024,C0,D60000";
+	public static final String DEFAULT_KEY = "X0,J100,K100,L0,Q0,S0,T0,A0,B1024,C0,D60000";
 
 	public static Config SINGLETON = new Config();
 

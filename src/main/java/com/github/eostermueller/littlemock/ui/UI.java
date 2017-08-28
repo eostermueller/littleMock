@@ -28,6 +28,18 @@ public class UI {
 	@Value("${xpath.message:test}")
 	private String xpathMessage = "XPath Optimizations";
 	
+	@Value("${xslt.message:test}")
+	private String xsltMessage = "XSLT Optimizations";
+	
+	@Value("${xslt.impl.00:test}")
+	private String xsltImpl00 = "XSLT Optimizations";
+	
+	@Value("${xslt.impl.01:test}")
+	private String xsltImpl01 = "XSLT Optimizations";
+	
+	@Value("${xslt.impl.02:test}")
+	private String xsltImpl02 = "XSLT Optimizations";
+	
 	@Value("${other.message:test}")
 	private String otherMessage = "Other Optimizations";
 	
@@ -78,6 +90,12 @@ public class UI {
         
         
         model.addAttribute("xpathMessage", this.xpathMessage);
+        model.addAttribute("xsltMessage", this.xsltMessage);
+        model.addAttribute("xsltImpl00", this.xsltImpl00);
+        model.addAttribute("xsltImpl01", this.xsltImpl01);
+        model.addAttribute("xsltImpl02", this.xsltImpl02);
+        
+        
         model.addAttribute("otherMessage", this.otherMessage);
         model.addAttribute("busyMessage", this.busyMessage);
         model.addAttribute("oldGenMessage", this.oldGenMessage);

@@ -23,7 +23,6 @@ public enum PerformanceCode {
 			config.setXPathImplementation( getCodeAndValue().getIntValue() );
 		}
 		public String get(Config config)  {
-//			return getClass().getSimpleName() + String.valueOf(config.getXPathImplementation()).trim();
 			return this.name() + String.valueOf(config.getXPathImplementation()).trim();
 		}
 	}
@@ -98,6 +97,14 @@ public enum PerformanceCode {
 		}
 		public String get(Config config)  {
 			return this.name() + String.valueOf( config.getRandomIntegerImplementation() ).trim();
+		}
+	}
+	,T() {
+		public void set(Config config) throws InvalidCode {
+			config.setXsltImplementation( getCodeAndValue().getIntValue() );
+		}
+		public String get(Config config)  {
+			return this.name() + String.valueOf(config.getXsltImplementation() ).trim();
 		}
 	}
 	,A() {

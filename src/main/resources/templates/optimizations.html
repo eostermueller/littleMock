@@ -81,7 +81,7 @@
 
 <div class="form-check">
   <label class="form-check-label">
-    <input id="id_xpath_0" class="form-check-input" type="radio" name="exampleRadios" value="option1" checked="true" />
+    <input id="id_xpath_0" class="form-check-input" type="radio" name="xpathRadios" value="option1" checked="true" />
     <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">[X0] Basic approach to XPath <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a> </a>
 
 														  	
@@ -91,14 +91,48 @@
 </div>
 <div class="form-check">
   <label class="form-check-label">
-    <input id="id_xpath_1" class="form-check-input" type="radio" name="exampleRadios" value="option2" />
+    <input id="id_xpath_1" class="form-check-input" type="radio" name="xpathRadios" value="option2" />
     [X1] Avoid DOM parsing by caching it for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 <div class="form-check">
   <label class="form-check-label">
-    <input id="id_xpath_2" class="form-check-input" type="radio" name="exampleRadios" value="option3" />
+    <input id="id_xpath_2" class="form-check-input" type="radio" name="xpathRadios" value="option3" />
     [X2] Avoid DOM parsing and XPath eval by caching HTTP response for repeat input. <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L78-L88', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+  </label>
+</div>
+					 </div>               
+				</div>                                                      
+				
+			</div>       
+			<h2>
+				<span th:text="' ' + ${xsltMessage}"></span>
+			</h2>
+			<div class="container-fluid" style="border:1px solid #cecece;">
+				<div class="row">                                           
+				  <div class="col-xs-12"> XSLT Implementation </div>
+				</div>                                                      
+				<div class="row">                                           
+				  
+				  <div class="col-xs-12"> 
+
+<div class="form-check">
+  <label class="form-check-label">
+    <input id="id_xslt_0" class="form-check-input" type="radio" name="xsltRadios" value="option1" checked="true" />
+    <a href="http://www.oracle.com/us/technologies/java/validationxpath-141471.html">[T0] <span th:text="' ' + ${xsltImpl00}"></span> <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/e304f7e7391c9d11b99b2a5df9989a64e24cc578/src/main/java/com/github/eostermueller/littlemock/Controller.java#L84-L97', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a> </a>
+  </label>
+   
+</div>
+<div class="form-check">
+  <label class="form-check-label">
+    <input id="id_xslt_1" class="form-check-input" type="radio" name="xsltRadios" value="option2" />
+    [T1] <span th:text="' ' + ${xsltImpl01}"></span> <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/e304f7e7391c9d11b99b2a5df9989a64e24cc578/src/main/java/com/github/eostermueller/littlemock/Controller.java#L84-L97', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+  </label>
+</div>
+<div class="form-check">
+  <label class="form-check-label">
+    <input id="id_xslt_2" class="form-check-input" type="radio" name="xsltRadios" value="option3" />
+    [T2] <span th:text="' ' + ${xsltImpl02}"></span> <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/e304f7e7391c9d11b99b2a5df9989a64e24cc578/src/main/java/com/github/eostermueller/littlemock/Controller.java#L84-L97', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
   </label>
 </div>
 
@@ -391,7 +425,10 @@
            function refreshScreen() {
            
 				var xpathImplementation = cfgXml.getElementsByTagName('xpathImplementation')[0].childNodes[0].nodeValue;
-				refreshRadio( parseInt(xpathImplementation) );
+				refreshXPathRadio( parseInt(xpathImplementation) );
+				
+				var xsltImplementation = cfgXml.getElementsByTagName('xsltImplementation')[0].childNodes[0].nodeValue;
+				refreshXsltRadio( parseInt(xsltImplementation) );
 				
 				var processingItems = cfgXml.getElementsByTagName('processingItems')[0].childNodes[0].nodeValue;
 				document.getElementById("id_processingItems").value = processingItems.trim();
@@ -430,7 +467,7 @@
 
 				
            }
-           function refreshRadio(newValue) {
+           function refreshXPathRadio(newValue) {
            		
            		switch(newValue) {
            			case 0:
@@ -450,7 +487,7 @@
            				break;
            		}
            }
-           function sendRadioState() {
+           function sendXPathRadioState() {
            		var xpathImpl;
            		
            		if (
@@ -474,6 +511,52 @@
            		} 	
            		sendConfigChange("xpathImplementation", xpathImpl );
            }
+           function refreshXsltRadio(newValue) {
+          		
+          		switch(newValue) {
+          			case 0:
+          				document.getElementById("id_xslt_0").checked = true;
+          				document.getElementById("id_xslt_1").checked = false;
+          				document.getElementById("id_xslt_2").checked = false;
+          				break;
+          			case 1:
+          				document.getElementById("id_xslt_0").checked = false;
+          				document.getElementById("id_xslt_1").checked = true;
+          				document.getElementById("id_xslt_2").checked = false;
+          				break;
+          			case 2:
+          				document.getElementById("id_xslt_0").checked = false;
+          				document.getElementById("id_xslt_1").checked = false;
+          				document.getElementById("id_xslt_2").checked = true;
+          				break;
+          		}
+          }
+           
+           function sendXsltRadioState() {
+          		var xsltImpl;
+          		
+          		if (
+          			    document.getElementById("id_xslt_0").checked
+          			&& !document.getElementById("id_xslt_1").checked
+          			&& !document.getElementById("id_xslt_2").checked
+          			) {
+          			xsltImpl = "0";
+          		} else if (
+          			   !document.getElementById("id_xslt_0").checked
+          			&&  document.getElementById("id_xslt_1").checked
+          			&& !document.getElementById("id_xslt_2").checked
+          			) {
+          			xsltImpl = "1";
+          		} else if (
+          			   !document.getElementById("id_xslt_0").checked
+          			&& !document.getElementById("id_xslt_1").checked
+          			&&  document.getElementById("id_xslt_2").checked
+          			) {
+          			xsltImpl = "2";
+          		} 	
+          		sendConfigChange("xsltImplementation", xsltImpl );
+          }
+           
            /**
              *   E V E N T     H A N D L E R S
              *
@@ -489,14 +572,24 @@
  			  sendConfigChange("uuidIsOptimized", this.checked ? "true" : "false" );
 		   };
  		   document.getElementById('id_xpath_0').onclick = function() {
-		   		sendRadioState();
+		   		sendXPathRadioState();
 		   };
  		   document.getElementById('id_xpath_1').onclick = function() {
-		   		sendRadioState();
+		   		sendXPathRadioState();
 		   };
  		   document.getElementById('id_xpath_2').onclick = function() {
-		   		sendRadioState();
+		   		sendXPathRadioState();
 		   };
+ 		   document.getElementById('id_xslt_0').onclick = function() {
+		   		sendXsltRadioState();
+		   };
+		   document.getElementById('id_xslt_1').onclick = function() {
+		   		sendXsltRadioState();
+		   };
+		   document.getElementById('id_xslt_2').onclick = function() {
+		   		sendXsltRadioState();
+		   };
+		   
  		   document.getElementById('id_processingItems_btn').onclick = function() {
 				var processingItems = document.getElementById("id_processingItems").value;
 		   		sendConfigChange("processingItems", processingItems.trim() );
