@@ -7,6 +7,7 @@ littleMock is demo environment for Java performance tuning. Runs on Windows/Mac/
 3. Launch startWar.sh (or startWar.cmd) to launch the WAR file.
 4. From a different cmd/terminal window, launch load.sh (or load.cmd).  It will apply 3 threads of load of traffic.
 5. Both of these scripts will take a few minutes to download dependencies.
+6. ![Screencast for install](https://user-images.githubusercontent.com/175773/31864156-6618087e-b71e-11e7-8fa1-1104220c3438.gif)
 
 
 # Optimize It!
