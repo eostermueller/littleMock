@@ -11,14 +11,11 @@ littleMock is demo environment for Java performance tuning. Runs on Windows/Mac/
 
 
 # Optimize It!
-1. Use your favorite Java Profiler to see what parts of littleMock are slow.
-2. Open http://localhost:8080/ui in your browser.
-3. Select options on this web page to deploy live optimizations to the running load test.
+1. Use your favorite tools (glowroot.org, jstack, jprofiler, etc...) to see what parts of littleMock are slow.
+2. Once startWar.sh is running, open http://localhost:8080/ui in your browser.
+3. Click the "Monitoring" link at the top of the page to launch [Glowroot](http://glowroot.org), monitoring software.  It will show you the impact of the optimizations you select on the above web page.
+4. Improrve/degrade performance immediately by selecting options on this web page.
+5. ![Using glowroot.org to monitor littleMock](https://user-images.githubusercontent.com/175773/31866957-a4a8cc80-b74c-11e7-92ee-b878052b6060.gif)
 
-![](https://cloud.githubusercontent.com/assets/175773/24088253/416d1078-0cf6-11e7-874d-c82044120bcd.png)
 
-# Monitor It!
-1. Click the "Monitoring" link at the top of the page to launch [Glowroot](http://glowroot.org), monitoring software that will show you the impact of the optimizations you select on the above web page.
-2. Scroll down a bit and select the 'throughput' radio button.
 
-![](https://cloud.githubusercontent.com/assets/175773/24088328/134fa4d4-0cf7-11e7-9271-239aa058d1da.png)
