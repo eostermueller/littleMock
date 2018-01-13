@@ -25,6 +25,7 @@ public class Config {
 	private  int processingIterations = 100; 
 	private  int fixedDelayMilliseconds = 0; 
 	private  boolean fileCacheEnabled = false;
+	private  boolean synchronizedSleepEnabled = false;
 	private  boolean uuidIsOptimized = false; 
 	private int oldGenMinExpirationMs = 0; 
 	private int oldGenMaxExpirationMs = 60000; //set expirations time stamps that are System.currentTimeMillis() + random value, with this variable as the max.
@@ -77,7 +78,16 @@ public class Config {
 			this.logAlways("UUIDIsOptimized set to [" + this.uuidIsOptimized + "]");
 		}
 	}
-	
+	public boolean isSleepSynchronized() {
+            return synchronizedSleepEnabled;
+        }
+        public void setSynchronizedSleep(Boolean val) {
+ 		if (val != null) {
+			this.synchronizedSleepEnabled = val;
+			this.logAlways("isSleepSynchronized set to [" + this.synchronizedSleepEnabled + "]");
+		}
+        }
+
 	public int getProcessingItems() {
 		return processingItems;
 	}
@@ -131,6 +141,7 @@ public class Config {
     	sb.append("<config>");
     	sb.append("\n    <logLevel>").append(getCurrentLogLevel() ).append("    </logLevel>");
     	sb.append("\n    <fileCache>").append(isFileCacheEnabled() ).append("    </fileCache>");
+    	sb.append("\n    <syncSleep>").append(isSleepSynchronized() ).append("    </syncSleep>");
     	sb.append("\n    <xpathImplementation>").append(this.getXPathImplementation() ).append("    </xpathImplementation>");
     	sb.append("\n    <xsltImplementation>").append(this.getXsltImplementation() ).append("    </xsltImplementation>");
     	sb.append("\n    <uuidIsOptimized>").append(this.isUuidOptimized() ).append("    </uuidIsOptimized>");

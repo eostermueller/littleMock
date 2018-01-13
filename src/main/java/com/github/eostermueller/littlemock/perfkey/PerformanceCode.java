@@ -50,6 +50,22 @@ public enum PerformanceCode {
 			return this.name() + String.valueOf(config.getFixedDelayMilliseconds() ).trim();
 		}
 	}
+	,M() {
+		public void set(Config config) throws InvalidCode {
+			config.setSynchronizedSleep( getCodeAndValue().getBooleanValue() );
+		}
+	        public String get(Config config)  {
+			boolean yn = config.isSleepSynchronized();
+			String rc = "";
+			
+			if (yn)
+				rc = this.name() + "1";
+			else 
+				rc = this.name() + "0";
+			
+			return rc;
+		}
+	}
 	,Q() {
 		public void set(Config config) throws InvalidCode {
 			config.setFileCacheEnabled( getCodeAndValue().getBooleanValue() );

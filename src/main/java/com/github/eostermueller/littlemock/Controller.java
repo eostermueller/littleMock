@@ -31,6 +31,10 @@ import com.github.eostermueller.littlemock.xslt.XsltProcessor;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class Controller implements EnvironmentAware {
+        /**   if Config.isSleepSynchronized() then 
+          *   this lock will allow only one thread to be sleeping at a time.
+          */
+        Object sleepLock = new Object();
 	XsltProcessor xsltProcessor = null;
 
 	private String humanReadableConfig = "<uninitialized>";
@@ -59,7 +63,10 @@ public class Controller implements EnvironmentAware {
     		}
     		
     		if (getConfig().getFixedDelayMilliseconds()>0)
-    			simulateSlowCode( (long) getConfig().getFixedDelayMilliseconds() );
+                          if (getConfig().isSleepSynchronized() )
+    			      simulateSynchronizedSlowCode( (long) getConfig().getFixedDelayMilliseconds() );
+                          else
+    			      simulateSlowCode( (long) getConfig().getFixedDelayMilliseconds() );
     		
     		busyProcessing();
     		
@@ -115,7 +122,16 @@ public class Controller implements EnvironmentAware {
 			e.printStackTrace();
 		}
 	}
-    private void busyProcessing() {
+ 	private void simulateSynchronizedSlowCode(long milliseconds) {
+		try {
+                        synchronized(sleepLock) {
+			     Thread.sleep( milliseconds );
+                        }
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+   private void busyProcessing() {
     	
     	List<String> myList = new ArrayList<String>();
     	
@@ -187,6 +203,7 @@ public class Controller implements EnvironmentAware {
     			@RequestParam(value="xpathFactoryCache", required=false) Boolean ynXPathFactoryCache,
     			@RequestParam(value="docBuilderCache", required=false) Boolean ynDocBuilderCache,
     			@RequestParam(value="fileCache", required=false) Boolean ynFileCache,
+    			@RequestParam(value="syncSleep", required=false) Boolean ynIsSleepSynchronized,
     			@RequestParam(value="oldGenMinExpirationMs", required=false) Integer intOldGenMinExpirationMs,
     			@RequestParam(value="oldGenMaxExpirationMs", required=false) Integer intOldGenMaxExpirationMs,
     			@RequestParam(value="oldGenMaxBytes", required=false) Integer intOldGenMaxBytes,
@@ -222,6 +239,7 @@ public class Controller implements EnvironmentAware {
 	   		getConfig().setUUIDIsOptimized(ynUuidIsOptimized);
 	   		getConfig().setRandomIntegerImplementation(intRandomIntImpl);
 	   		getConfig().setFileCacheEnabled(ynFileCache);
+	   		getConfig().setSynchronizedSleep(ynIsSleepSynchronized);
 	   		getConfig().setProcessingItems(intProcessingItems);
 	   		getConfig().setProcessingIterations(intProcessingIterations);
 	   		getConfig().setFixedDelayMilliseconds(intFixedDelayMilliseconds);

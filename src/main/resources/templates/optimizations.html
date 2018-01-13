@@ -223,6 +223,18 @@
 								<div class="input-group col-xs-3">
 									<a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/cb84acf6479ba5d9aca7ea60e0f83703dc82acde/src/main/java/com/github/eostermueller/littlemock/Controller.java#L58-L59', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
 								</div>
+                                                   <p></p>
+                                                   <p></p>
+					   <div class="form-check">
+						   <label class="form-check-label">
+							 <input id="id_syncSleep" class="form-check-input" type="checkbox" value=""/>
+							 [M] Synchronize calls to Thread.sleep()
+							 <a href="javascript:window.open('https://github.com/eostermueller/littleMock/blob/bf60252987cdfc34ef27f74fb322e29f067cf692/src/main/java/com/github/eostermueller/littlemock/PlaybackRepository.java#L233-L241', 'Link to source code', 'location=yes,height=570,width=920,scrollbars=yes,status=yes');"> <span th:text="${codeLink}"></span> </a>
+						   </label>
+                                                   <p></p>
+                                                   <p></p>
+						 </div>
+
 							  </div> 				
 
 							</div>
@@ -441,6 +453,10 @@
 				
 				var varFileCache = cfgXml.getElementsByTagName('fileCache')[0].childNodes[0].nodeValue;
 				document.getElementById("id_fileCache").checked = (varFileCache.trim()==="true") ? true : false;
+ 
+				var varSyncSleep = cfgXml.getElementsByTagName('syncSleep')[0].childNodes[0].nodeValue;
+				document.getElementById("id_syncSleep").checked = (varSyncSleep.trim()==="true") ? true : false;
+
 				
 				var randomIntegerImplementation = cfgXml.getElementsByTagName('randomIntegerImplementation')[0].childNodes[0].nodeValue;
 				document.getElementById("id_randomIntegerImplementation").checked = (randomIntegerImplementation.trim()==="1") ? true : false;
@@ -563,6 +579,9 @@
              */
  		   document.getElementById('id_fileCache').onclick = function() {
 		   		sendConfigChange("fileCache", this.checked ? "true" : "false" );
+		   };
+ 		   document.getElementById('id_syncSleep').onclick = function() {
+		   		sendConfigChange("syncSleep", this.checked ? "true" : "false" );
 		   };
  		   document.getElementById('id_randomIntegerImplementation').onclick = function() {
 		   		sendConfigChange("randomIntegerImplementation", this.checked ? "1" : "0" );

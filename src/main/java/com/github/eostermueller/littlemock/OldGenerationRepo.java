@@ -7,7 +7,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-
+/**  Queue of variable-sized memory allocations, all kept with an expiration dates.
+  *  The consumer adds the allocations and periodically calls the maybePrune() method
+  *  that discards allocations that are past the expiration date.
+  *  This is intended to simulate the ebb and flow of "Old Generation" memory consumption of online web applications.
+  */
 public class OldGenerationRepo implements IntegerChangeListener {
 	AtomicBoolean ynEnabled = new AtomicBoolean(false);
 	
