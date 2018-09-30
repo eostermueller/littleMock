@@ -14,7 +14,7 @@
 	</parent>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>10</java.version>
         	<my.lib>${org.glowroot:glowroot-agent:jar}</my.lib>
 	</properties>
 
@@ -61,7 +61,7 @@
 		<dependency>
 		    <groupId>org.glowroot</groupId>
 		    <artifactId>glowroot-agent</artifactId>
-		    <version>0.9.14</version>
+		    <version>0.10.12</version>
 		</dependency>
 		
 		
@@ -70,7 +70,49 @@
 	<build>
 		<!-- <defaultGoal>generate-sources</defaultGoal> -->
 		<plugins>
+<plugin>
+  <groupId>com.googlecode.maven-download-plugin</groupId>
+  <artifactId>download-maven-plugin</artifactId>
+  <version>1.3.0</version>
+  <executions>
+    <execution>
+      <!-- the wget goal actually binds itself to this phase by default -->
+      <phase>process-resources</phase>
+      <goals>
+        <goal>wget</goal>
+      </goals>
+      <configuration>
+        <url>https://github.com/glowroot/glowroot/releases/download/v0.10.12/glowroot-0.10.12-dist.zip</url>
+        <outputFileName>glowroot-0.10.12-dist.zip</outputFileName>
+        <!-- default target location, just to demonstrate the parameter -->
+        <outputDirectory>${project.build.directory}</outputDirectory>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
 
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <version>2.2</version>
+    <executions>
+      <execution>
+        <id>unpack-sigar</id>
+        <phase>package<!-- or any other valid maven phase --></phase>
+        <goals>
+          <goal>unpack-dependencies</goal>
+        </goals>
+        <configuration>
+          <includeGroupIds>org.hyperic</includeGroupIds>
+          <includeArtifactIds>sigar-dist</includeArtifactIds>
+          <outputDirectory>
+             ${project.build.directory}/wherever/you/want/it
+             <!-- or: ${project.basedir}/wherever/you/want/it -->
+          </outputDirectory>
+        </configuration>
+      </execution>
+    </executions>
+</plugin>
 <plugin>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -145,15 +187,10 @@
 			<argument>-Xloggc:gc.log</argument>
 			<argument>-verbose:gc</argument>
 			<argument>-XX:+PrintGCDetails</argument>
-			<argument>-XX:+PrintGCDateStamps</argument>
-			<argument>-XX:+PrintGCTimeStamps</argument>
-			<argument>-XX:+UseGCLogFileRotation</argument>
-			<argument>-XX:NumberOfGCLogFiles=5</argument>
-			<argument>-XX:GCLogFileSize=10m </argument>
-			<argument>-XX:+PrintTenuringDistribution</argument>
 			<argument>-verbose:sizes</argument>
 
-			<argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument>
+			<argument>-javaagent:/Users/erikostermueller/Documents/src/jsource/littleMock/glowroot/glowroot/glowroot.jar</argument>
+			<!-- <argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument> -->
 			<argument>-jar</argument>
 			<argument>target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar</argument>
 		   </arguments>
