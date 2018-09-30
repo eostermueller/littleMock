@@ -57,13 +57,13 @@
 		</dependency>
 		
 	
-		<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
+		<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent 
 		<dependency>
 		    <groupId>org.glowroot</groupId>
 		    <artifactId>glowroot-agent</artifactId>
-		    <version>0.10.12</version>
+		    <version>0.11.0</version>
 		</dependency>
-		
+	        -->	
 		
 	</dependencies>
 
@@ -82,10 +82,11 @@
         <goal>wget</goal>
       </goals>
       <configuration>
-        <url>https://github.com/glowroot/glowroot/releases/download/v0.10.12/glowroot-0.10.12-dist.zip</url>
-        <outputFileName>glowroot-0.10.12-dist.zip</outputFileName>
+        <url>https://github.com/glowroot/glowroot/releases/download/v0.11.0/glowroot-0.11.0-dist.zip</url>
+        <unpack>true</unpack>
+        <outputFileName>glowroot-0.11.0-dist.zip</outputFileName>
         <!-- default target location, just to demonstrate the parameter -->
-        <outputDirectory>${project.build.directory}</outputDirectory>
+        <outputDirectory>${project.build.directory}/glowroot-0.11.0</outputDirectory>
       </configuration>
     </execution>
   </executions>
@@ -189,7 +190,7 @@
 			<argument>-XX:+PrintGCDetails</argument>
 			<argument>-verbose:sizes</argument>
 
-			<argument>-javaagent:/Users/erikostermueller/Documents/src/jsource/littleMock/glowroot/glowroot/glowroot.jar</argument>
+			<argument>-javaagent:${project.build.directory}/glowroot-0.11.0/glowroot/glowroot.jar</argument>
 			<!-- <argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument> -->
 			<argument>-jar</argument>
 			<argument>target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar</argument>
