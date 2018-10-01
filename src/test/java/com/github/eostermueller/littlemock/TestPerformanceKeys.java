@@ -28,7 +28,8 @@ public class TestPerformanceKeys {
 		PerformanceKey pk = new PerformanceKey(c);
 		String perfKey = pk.getKey();
 		
-		assertEquals("X0,J100,K100,L0,Q0,S0,A0,B1024,C0,D60000", perfKey);
+		//assertEquals("X0,J100,K100,L0,Q0,S0,A0,B1024,C0,D60000", perfKey);
+                assertEquals("X0,J100,K100,L0,M0,Q0,R0,S0,T0,A0,B1024,C0,D60000", perfKey);
 	}
 	@Test public void canGetKeyFromSomeConfig() throws InvalidCode {
 		Config c = new Config();
@@ -55,7 +56,8 @@ public class TestPerformanceKeys {
 		PerformanceKey pk = new PerformanceKey(c);
 		String perfKey = pk.getKey();
 		
-		assertEquals("X2,J25,K26,L0,Q,S1,A10,B65535,C0,D10", perfKey);
+		//assertEquals("X2,J25,K26,L0,Q,S1,A10,B65535,C0,D10", perfKey);
+                assertEquals("X2,J25,K26,L0,M0,Q1,R0,S1,T0,A10,B65535,C0,D10", perfKey);
 	}
 	
 	@Test

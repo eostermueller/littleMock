@@ -66,7 +66,7 @@ public class CodeAndValue {
 	
 	public int getIndexOfLastLetter() throws InvalidCode {
 		if (!Character.isLetter(getCodeAndValue().charAt(0)))
-			throw new InvalidCode(getCodeAndValue(), "First char must be letter but instead fnd " + getCodeAndValue().charAt(0) );
+			throw new InvalidCode(getCodeAndValue(), "First char must be letter but instead fnd [" + getCodeAndValue().charAt(0) + "] at the beginning of [" + getCodeAndValue() + "]" );
 
 		int indexOfLastLetter = -1;
 		
