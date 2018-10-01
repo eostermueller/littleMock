@@ -193,7 +193,7 @@
 			<argument>-javaagent:${project.build.directory}/glowroot-0.11.0/glowroot/glowroot.jar</argument>
 			<!-- <argument>-javaagent:${org.glowroot:glowroot-agent:jar}</argument> -->
 			<argument>-jar</argument>
-			<argument>target/littleMock-0.0.1-SNAPSHOT-spring-boot.jar</argument>
+			<argument>target/littleMock-0.0.2-spring-boot.jar</argument>
 		   </arguments>
 		</configuration>
 
